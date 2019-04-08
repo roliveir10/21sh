@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 17:28:12 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/02 13:15:23 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/06 20:18:20 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <string.h>
 # include <wchar.h>
 
-# define BUFF_SIZE 1024
+# define BUFF_SIZE 512
 
 typedef struct		s_list
 {

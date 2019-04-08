@@ -6,13 +6,13 @@
 #    By: roliveir <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/28 01:21:35 by roliveir          #+#    #+#              #
-#    Updated: 2019/04/04 16:30:09 by roliveir         ###   ########.fr        #
+#    Updated: 2019/04/08 15:27:58 by roliveir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 INC_PATH = includes/
 LIB_INC_PATH = libft/includes/
@@ -71,14 +71,21 @@ SRC_LINE_NAME = line_edition.c\
 				cpy.c\
 				isalt.c\
 				print_line.c\
-				reset_cursor.c
+				reset_cursor.c\
+				line_read_notty.c
 
 SRC_BUILT_NAME = ft_echo.c\
 				 ft_cd.c\
 				 ft_env.c\
 				 ft_setenv.c\
 				 ft_env_tools.c\
-				 ft_unsetenv.c
+				 ft_unsetenv.c\
+				 envtolst.c\
+				 lsttotab.c\
+				 built_manager.c\
+				 cdflag.c\
+				 cdpwd.c\
+				 cdfunc.c
 
 SRC_SIG_NAME = signal_func.c signal_handler.c
 

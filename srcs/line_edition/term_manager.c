@@ -6,25 +6,38 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 02:00:25 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/04 19:58:12 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 21:44:57 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
 #include "libft.h"
 
-/*
-** term_x - 1 espace, clear la ligne
-*/
+static void			ft_newline(t_env *env)
+{
+	int				i;
+
+	i = 0;
+	if (!env->tc->tc)
+		return ;
+	tputs(env->tc->mr, 1, ft_putchar);
+	ft_putchar('%');
+	tputs(env->tc->me, 1, ft_putchar);
+	while (++i < env->cm->term_x)
+		ft_putchar(' ');
+	tputs(env->tc->cr, 1, ft_putchar);
+	tputs(env->tc->dl, 1, ft_putchar);
+}
 
 static void			ft_setprompt(t_env *env, t_prompt prompt)
 {
+	ft_newline(env);
 	if (!(env->line = ft_get_prompt(prompt)))
 		ft_errorterm(TMALLOC, env);
 	env->cm->pos = prompt;
-	env->cm->old_pos = prompt;
 	env->p_size = prompt;
 	env->prompt = prompt;
+	env->len = prompt;
 }
 
 static char			*ft_cutline(t_env *env, t_prompt prompt)
@@ -55,9 +68,11 @@ void				ft_term_manager(t_env *env)
 	ft_bzero(cm, sizeof(t_cm));
 	ft_bzero(cpy, sizeof(t_cpy));
 	env->tc = tc;
+	env->tc->tc = 1;
 	env->cm = cm;
 	env->cpy = cpy;
 	ft_configterm(env);
+	signal_saved(env);
 }
 
 char				*ft_get_line(t_env *env, t_prompt prompt, char *argv)
@@ -68,6 +83,9 @@ char				*ft_get_line(t_env *env, t_prompt prompt, char *argv)
 	if (env->isatty)
 		ft_switch_term(env, 0);
 	env->ctrld = 0;
+	env->tc->tc = 1;
+	if (!ft_check_termcaps(*env->tc))
+		env->tc->tc = 0;
 	while (!ret)
 	{
 		if (env->isatty)

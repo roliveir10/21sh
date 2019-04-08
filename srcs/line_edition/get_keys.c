@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 03:46:52 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/04 14:00:56 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 15:40:23 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int					ft_line_manager(t_env *env, char *str, int ret)
 {
 	if (str[0] == '\n' && ret == 1)
 		return (0);
-	else if (str[0] == CTRLD && ret == 1)
+	else if (str[0] == CTRLD && ret == 1 && env->len == env->p_size + 1)
 	{
 		env->ctrld = 1;
 		return (0);

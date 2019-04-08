@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 19:20:09 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/05 13:52:27 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/06 21:01:30 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-static int			ft_check_termcaps(t_tc tc)
+int					ft_check_termcaps(t_tc tc)
 {
 	int				i;
 
@@ -31,6 +31,8 @@ static int			ft_check_termcaps(t_tc tc)
 
 void				ft_active_termcaps(t_env *env)
 {
+	if (!env->tc->tc)
+		return ;
 	tputs(env->tc->key[0], 1, ft_putchar);
 }
 

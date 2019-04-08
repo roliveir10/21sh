@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:21:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/05 16:30:24 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 15:41:22 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@
 
 typedef enum			e_error
 {
-	TNOTERM,
-	TNOTINDATA,
 	TBADFD,
-	TNOENTRY,
 	TTTYNAME,
-	TTERMCAPS,
 	TMALLOC,
 	TIOCTL,
 	TBADARG
@@ -55,6 +51,7 @@ typedef enum			e_prompt
 
 typedef struct			s_tc
 {
+	int					tc;
 	char				*key[5];
 	char				*cm;
 	char				*cl;
@@ -77,9 +74,9 @@ typedef struct			s_tc
 typedef struct			s_cm
 {
 	int					pos;
-	int					old_pos;
 	int					term_x;
 	int					term_y;
+	int					tmpy;
 }						t_cm;
 
 typedef struct			s_cpy
@@ -113,6 +110,7 @@ typedef struct			s_env
 	int					ctrld;
 	int					select;
 	int					del;
+	int					len;
 }						t_env;
 
 /*
@@ -136,6 +134,8 @@ int						ft_update_line(t_env *env, char *str, int ret);
 char					*ft_get_line(t_env *env, t_prompt prompt, char *argv);
 int						ft_line_manager(t_env *env, char *str, int ret);
 int						ft_line_arrow(t_env *env, char *str);
+int						ft_read_isnotatty(t_env *env);
+int						ft_read_isarg(t_env *env, char *argv);
 
 /*
 ** termcaps
@@ -143,6 +143,7 @@ int						ft_line_arrow(t_env *env, char *str);
 
 int						ft_addtermcaps(t_tc *tc);
 void					ft_active_termcaps(t_env *env);
+int						ft_check_termcaps(t_tc tc);
 
 /*
 ** cursor_motion
@@ -188,8 +189,9 @@ void					ft_signal(int sg);
 t_env					*signal_saved(t_env *env);
 void					ft_sigint(void);
 void					ft_sigwinch(void);
-void					ft_sigsusp(void);
-void					ft_sigcont(void);
+void					ft_reset_signal(int val);
+void					ft_null(int sg);
+void					ft_setsig_child(int val);
 
 /*
 **	cpy/past

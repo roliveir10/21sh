@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 04:14:48 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/03 15:25:28 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/07 15:40:24 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <signal.h>
 
 int					is_exec(char *path)
 {
@@ -41,6 +42,7 @@ int					do_fork(char *name, char **arg, char **env, t_args *args)
 		child = fork();
 		if (child == 0)
 		{
+			signal(SIGINT, SIG_DFL);
 			if (ft_launch_red(args->cmd->redir, args))
 				ft_exit_clean_args(args, 1);
 			execve(name, arg, env);
@@ -50,6 +52,7 @@ int					do_fork(char *name, char **arg, char **env, t_args *args)
 	}
 	else
 	{
+		signal(SIGINT, SIG_DFL);
 		if (ft_launch_red(args->cmd->redir, args))
 			ft_exit_clean_args(args, 1);
 		execve(name, arg, env);

@@ -6,29 +6,52 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 13:23:56 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/04 13:23:58 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/08 15:34:46 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "built_in.h"
+#include <unistd.h>
 
-int		ft_cd(char **args, char ***env)
+int					ft_free_cdflag(t_cdflag *flag)
 {
-	int	k;
+	if (flag->path)
+		ft_strdel(&flag->path);
+	return (0);
+}
+
+int					ft_cderr(char *str, char *file)
+{
+	ft_putstr_fd(str, STDERR_FILENO);
+	if (file)
+		ft_putendl_fd(file, STDERR_FILENO);
+	return (0);
+}
+
+static int			ft_new_pwd(t_cdflag flag, char ***env)
+{
+	if (flag.minus)
+		return (ft_cdminus(env));
+	return (1);
+}
+
+int					ft_cd(char **args, char ***env)
+{
+	t_lstenv		*lstenv;
+	t_cdflag		flag;
+	int				ret;
 
 	(void)env;
-	if (!args)
+	lstenv = NULL;
+	ft_bzero(&flag, sizeof(t_cdflag));
+	if (!args || !*args)
 		return (0);
-	k = 0;
-	while (args[k])
-	{
-		if (k == 1)
-		{
-			ft_putstr("i wanna go: ");
-			ft_putstr(args[k]);
-			ft_putstr(", yepp\n");
-		}
-		k++;
-	}
-	return (0);
+	if (!ft_getoption(&args[1], &flag))
+		return (ft_free_cdflag(&flag));
+	if (!ft_pwd_update(flag, env))
+		return (ft_free_cdflag(&flag));
+	ret = ft_new_pwd(flag, env);
+	ft_free_cdflag(&flag);
+	return (ret);
 }

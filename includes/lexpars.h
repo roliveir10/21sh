@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 12:13:45 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/04 13:56:49 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/07 18:06:26 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 # define NB_STATE 14
 # define NB_CARAC 12
-# define NB_FCT 6
 
-#include "line_edition.h"
+# include "line_edition.h"
 
 typedef enum		e_fnct
 {
@@ -124,12 +123,6 @@ int					ft_newred(t_args *args);
 int					ft_dbqt(t_args *args);
 int					ft_spqt(t_args *args);
 int					ft_more_pipe(t_args *args);
-
-int					ft_echo(char **args, char ***env);
-int					ft_cd(char **args, char ***env);
-int					ft_env(char **args, char ***env);
-int					ft_setenv(char **args, char ***env);
-int					ft_unsetenv(char **args, char ***env);
 
 char				**ft_tab_dup(char **tabl);
 int					ft_tab_size(char **env);

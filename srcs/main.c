@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 12:11:17 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/05 11:04:08 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 15:54:34 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ int					main(int argc, char **argv, char **arge_sys)
 			line = NULL;
 		}
 		if (!env.isatty)
-		{
 			ret = 0;
-		}
 	}
 	ft_del_words_tables(&arge);
 	ft_quiterm(&env);

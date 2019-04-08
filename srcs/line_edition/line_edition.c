@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 22:59:54 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/05 18:42:05 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:38:33 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void				ft_clear_line(t_env *env)
 	int				i;
 
 	i = -1;
-	while (++i < ft_gety(env, env->cm->old_pos))
+	while (++i < env->cm->tmpy)
 		tputs(env->tc->up, 1, ft_putchar);
-	tputs(env->tc->cr, 1, ft_putchar);
 	tputs(env->tc->cd, 1, ft_putchar);
+	tputs(env->tc->cr, 1, ft_putchar);
+	tputs(env->tc->dl, 1, ft_putchar);
 }
 
 void				ft_paste(t_env *env, char *str)
@@ -53,19 +54,19 @@ int					ft_update_line(t_env *env, char *str, int ret)
 {
 	int				cap;
 	int				i;
-	int				len;
 
 	i = -1;
 	if (!str)
 		return (0);
+	env->len = (int)ft_strlen(env->line) + 1;
 	if (env->select)
 		cap = ft_line_cpy(env, str, ret);
 	else
 		cap = ft_line_manager(env, str, ret);
-	len = (int)ft_strlen(env->line);
+	env->len = (int)ft_strlen(env->line);
 	ft_clear_line(env);
 	ft_print_line(env);
 	ft_reset_cursor(env);
-	env->cm->old_pos = env->cm->pos;
+	env->cm->tmpy = ft_gety(env, env->cm->pos);
 	return (cap);
 }

@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:52:45 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/04 13:24:42 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/07 19:08:04 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ int		ft_env(char **args, char ***env)
 	if (!env || !(*env))
 		return (0);
 	ft_print_words_tables(*env);
-	return (0);
+	return (1);
 }

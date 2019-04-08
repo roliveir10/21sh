@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 13:53:55 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/04 13:53:59 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:22:11 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,40 +48,4 @@ void				ft_sigwinch(void)
 	ft_clear_line(env);
 	ft_putstr(env->line);
 	ft_reset_cursor(env);
-}
-
-void				ft_sigsusp(void)
-{
-	t_env			*env;
-	char			cmd[2];
-	int				i;
-
-	i = 0;
-	env = signal_saved(NULL);
-	env->term.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(env->t_fd, TCSANOW, &(env->term)) < 0)
-		ft_errorterm(TBADFD, env);
-	cmd[0] = env->term.c_cc[VSUSP];
-	cmd[1] = '\0';
-	while (i < 32)
-	{
-		if (i == SIGINT || i == SIGWINCH || i == SIGTSTP)
-			signal(i, SIG_DFL);
-		i++;
-	}
-	ioctl(STDIN_FILENO, TIOCSTI, cmd);
-}
-
-void				ft_sigcont(void)
-{
-	t_env			*env;
-
-	env = signal_saved(NULL);
-	env->term.c_lflag &= ~(ICANON | ECHO);
-	env->term.c_cc[VMIN] = 1;
-	env->term.c_cc[VTIME] = 0;
-	if (tcsetattr(env->t_fd, TCSANOW, &(env->term)) < 0)
-		ft_errorterm(TBADFD, env);
-	ft_signal_handler(1);
-	ft_putstr(env->line);
 }

@@ -6,26 +6,28 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 03:23:54 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/05 18:57:37 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/06 19:10:48 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
 #include "libft.h"
 
-static int	ft_getcor(t_env *env, int pos, int k)
+static int	ft_getpos(t_env *env, int pos, int k)
 {
-	int		i;
 	int		x;
+	int		i;
 	int		max;
+	int		len;
 
+	x = 0;
 	i = -1;
 	max = 1;
-	x = 0;
+	len = (int)ft_strlen(env->line);
 	while (++i < pos)
 	{
-		if (pos <= (int)ft_strlen(env->line)
-				&& (env->line[i] == '\n' || max == env->cm->term_x))
+		if ((i < len && env->line[i] == '\n')
+			|| max == env->cm->term_x)
 		{
 			max = 1;
 			x = k ? 0 : x + 1;
@@ -33,22 +35,20 @@ static int	ft_getcor(t_env *env, int pos, int k)
 		else
 		{
 			max++;
-			x = k ? x + 1 : x;
+			x = k ? x = 1 : x;
 		}
 	}
 	return (x);
 }
-
 int			ft_getx(t_env *env, int pos)
 {
-	return (ft_getcor(env, pos, 1));
+	return (ft_getpos(env, pos, 1));
 }
 
 int			ft_gety(t_env *env, int pos)
 {
-	return (ft_getcor(env, pos, 0));
+	return (ft_getpos(env, pos, 0));
 }
-
 
 int			ft_get_termroom(t_env *env)
 {
@@ -57,10 +57,8 @@ int			ft_get_termroom(t_env *env)
 
 int			ft_get_origin_pos(t_env *env)
 {
-	int		len;
 	int		room;
 
-	len = (int)ft_strlen(env->line);
-	room = ft_get_termroom(env) - env->cm->term_x + ft_getx(env, len) + 1;
-	return (len - room + 1);
+	room = ft_get_termroom(env) - env->cm->term_x + ft_getx(env, env->len) + 1;
+	return (env->len - room + 1);
 }

@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 03:15:19 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/04 13:22:20 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/07 18:08:52 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,7 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
-
-int				ft_do_home(int k, char **argv, char ***arge)
-{
-	static int	(*fct_list_home[5])(char**, char***) = {
-		ft_echo, ft_cd, ft_env, ft_setenv, ft_unsetenv};
-
-	if (k < 6 && k > 0)
-		return (*(fct_list_home[k - 1]))(argv, arge);
-	else
-		return (0);
-}
+#include "built_in.h"
 
 int				ft_launch_fct(t_args *args, int fct, char **path, char ***arge)
 {

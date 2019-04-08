@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 13:22:35 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/05 18:32:37 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:38:34 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,13 @@ static void			ft_back_left(t_env *env, int pos)
 		{
 			len_line = ft_lenline(env, pos - 1);
 			tputs(env->tc->up, 1, ft_putchar);
-			while (++i < len_line)
-				tputs(env->tc->nd, 1, ft_putchar);
+			if (pos - len_line > env->cm->pos)
+				pos -= len_line;
+			else
+			{
+				while (++i < len_line)
+					tputs(env->tc->nd, 1, ft_putchar);
+			}
 		}
 		else
 			tputs(env->tc->le, 1, ft_putchar);
@@ -49,12 +54,9 @@ static void			ft_back_left(t_env *env, int pos)
 
 void				ft_reset_cursor(t_env *env)
 {
-	int				pos;
-
-	pos = (int)ft_strlen(env->line);
-	ft_back_left(env, pos);
+	ft_back_left(env, env->len);
 	if (!ft_getx(env, env->cm->pos)
-			&& !ft_getx(env, (int)ft_strlen(env->line)))
+			&& env->len % env->cm->term_x == 0)
 	{
 		tputs(env->tc->cr, 1, ft_putchar);
 		tputs(env->tc->doo, 1, ft_putchar);

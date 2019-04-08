@@ -6,31 +6,14 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 06:36:11 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/02 03:02:19 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/07 18:10:16 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexpars.h"
 #include "libft.h"
 #include <stdlib.h>
-
-int				ft_get_home_cmd(char *name)
-{
-	int			k;
-	static char	*tabl[NB_FCT] = {
-		"exit", "echo", "cd", "env", "setenv", "unsetenv"};
-
-	if (!name)
-		return (-1);
-	k = 0;
-	while (k < NB_FCT)
-	{
-		if (!ft_strcmp(name, tabl[k]))
-			return (k);
-		k++;
-	}
-	return (-1);
-}
+#include "built_in.h"
 
 int				ft_fct(t_word *word, char **path, char **arge)
 {
