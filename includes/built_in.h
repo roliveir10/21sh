@@ -69,4 +69,5 @@ int					ft_pwd_update(t_cdflag flag, char ***env);
 int					ft_cderr(char *str, char *file);
 int					ft_setpwd(char *name, char *value, char ***env);
 int					ft_cdminus(char ***env);
+int					ft_cdpath(t_cdflag flag, char ***env);
 #endif

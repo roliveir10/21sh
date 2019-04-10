@@ -21,7 +21,7 @@ int				ft_echo(char **args, char ***env)
 	(void)env;
 	if (!args || !args[0])
 		return (0);
-	if (!ft_strcmp(args[1], "-n"))
+	if (args[1] && !ft_strcmp(args[1], "-n"))
 		n = 1;
 	i = n + 1;
 	while (args[i])

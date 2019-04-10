@@ -33,6 +33,8 @@ static int			ft_new_pwd(t_cdflag flag, char ***env)
 {
 	if (flag.minus)
 		return (ft_cdminus(env));
+	else if (flag.path)
+		return (ft_cdpath(flag, env));
 	return (1);
 }
 
