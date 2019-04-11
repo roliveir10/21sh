@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 22:59:54 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/07 16:38:33 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:16:44 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,31 @@ void				ft_paste(t_env *env, char *str)
 	ft_cursor_motion(env, MRIGHT, (int)ft_strlen(str));
 }
 
-int					ft_update_line(t_env *env, char *str, int ret)
+static int			ft_choose_mode(t_env *env, char *str, int ret)
 {
 	int				cap;
+	
+	if (env->mode->n_select)
+		cap = ft_line_cpy(env, str, ret);
+	else if (env->mode->mode[MVI])
+		cap = ft_line_vi(env, str, ret);
+	else if (env->mode->mode[MREADLINE])
+		cap = ft_line_readline(env, str, ret);
+	else
+		cap = ft_line_manager(env, str, ret);
+	return (cap);
+}
+
+int					ft_update_line(t_env *env, char *str, int ret)
+{
 	int				i;
+	int				cap;
 
 	i = -1;
 	if (!str)
 		return (0);
 	env->len = (int)ft_strlen(env->line) + 1;
-	if (env->select)
-		cap = ft_line_cpy(env, str, ret);
-	else
-		cap = ft_line_manager(env, str, ret);
+	cap = ft_choose_mode(env, str, ret);
 	env->len = (int)ft_strlen(env->line);
 	ft_clear_line(env);
 	ft_print_line(env);

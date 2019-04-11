@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 17:49:26 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/08 15:27:40 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 14:10:59 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ typedef struct				s_cdflag
 	int						minus;
 	char					*path;
 }							t_cdflag;
+
+typedef struct				s_lstarg
+{
+	char					*name;
+	char					*value;
+	struct s_lstarg			*next;
+}							t_lstarg;
+
+typedef struct				s_envflag
+{
+	int						argc;
+	int						i;
+	struct s_lstarg			*ft;
+}							t_envflag;
 /*
 **	built_in name
 */
@@ -59,6 +73,8 @@ int					ft_error_message(t_berror error);
 int					ft_free_lstenv(t_lstenv **env);
 int					ft_envtolst(t_lstenv **env, char **arge);
 int					ft_lsttotab(t_lstenv *env, char ***arge);
+char				*ft_get_name(char *str);
+char				*ft_get_value(char *str);
 
 /*
 **	cd
@@ -70,4 +86,13 @@ int					ft_cderr(char *str, char *file);
 int					ft_setpwd(char *name, char *value, char ***env);
 int					ft_cdminus(char ***env);
 int					ft_cdpath(t_cdflag flag, char ***env);
+int					ft_cdhome(char ***env);
+
+/*
+**	env
+*/
+
+int					ft_get_envoption(char **args, t_envflag *flag);
+int					ft_enverr(char *str, char *file);
+int					ft_free_ft(t_lstarg *ft);
 #endif

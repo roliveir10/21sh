@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:21:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/07 15:41:22 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:37:22 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define DJUMP "\033\033[B"
 # define TEND "\033OF"
 # define CTRLD '\004'
+
+# define MODE 3
 
 typedef enum			e_error
 {
@@ -48,6 +50,13 @@ typedef enum			e_prompt
 	PPIPE = 6,
 	PHEREDOC = 9,
 }						t_prompt;
+
+typedef enum			e_emode
+{
+	MNORMAL,
+	MVI,
+	MREADLINE
+}						t_emode;
 
 typedef struct			s_tc
 {
@@ -92,6 +101,15 @@ typedef struct			s_history
 	struct s_history	*prev;
 }						t_history;
 
+typedef struct			s_mode
+{
+	int					mode[MODE];
+	int					n_select;
+	int					v_command;
+	int					v_insert;
+	int					v_count;
+}						t_mode;
+
 typedef struct			s_env
 {
 	struct termios		term;
@@ -108,7 +126,7 @@ typedef struct			s_env
 	int					index;
 	int					sigc;
 	int					ctrld;
-	int					select;
+	t_mode				*mode;
 	int					del;
 	int					len;
 }						t_env;
@@ -134,6 +152,8 @@ int						ft_update_line(t_env *env, char *str, int ret);
 char					*ft_get_line(t_env *env, t_prompt prompt, char *argv);
 int						ft_line_manager(t_env *env, char *str, int ret);
 int						ft_line_arrow(t_env *env, char *str);
+int						ft_line_ascii(t_env *env, char *str, int ret);
+int						ft_line_history(t_env *env, char *str);
 int						ft_read_isnotatty(t_env *env);
 int						ft_read_isarg(t_env *env, char *argv);
 
@@ -214,4 +234,28 @@ int						ft_isaltv(char *str);
 */
 
 void					ft_print_line(t_env *env);
+
+/*
+**	mode
+*/
+
+
+int						ft_vi(t_env *env, char *str);
+int						ft_read_line(t_env *env, char *str);
+int						ft_tmp(t_env *env, char *str);
+
+/*
+**	vi_mode
+*/
+
+int						ft_line_vi(t_env *env, char *str, int ret);
+int						ft_vi_command(t_env *env, char *str, int ret,
+		int *count);
+int						ft_hash_insert(t_env *env);
+int						ft_get_count(t_env *env, int count);
+/*
+**	read_line_mode
+*/
+
+int						ft_line_readline(t_env *env, char *str, int ret);
 #endif

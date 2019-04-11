@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 17:48:06 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/08 12:03:37 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 12:10:07 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int					ft_free_lstenv(t_lstenv **env)
 	return (0);
 }
 
-static char			*ft_get_name(char *str)
+char				*ft_get_name(char *str)
 {
 	int				i;
 
@@ -44,7 +44,7 @@ static char			*ft_get_name(char *str)
 	return (NULL);
 }
 
-static char			*ft_get_value(char *str)
+char				*ft_get_value(char *str)
 {
 	char			*value;
 

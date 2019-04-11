@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 15:03:50 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/08 15:38:29 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 11:58:03 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,23 @@ int				ft_cdpath(t_cdflag flag, char ***env)
 		return (ft_cderr(buf, NULL));
 	if (!ft_setpwd("PWD", buf, env))
 		return (0);
+	return (1);	
+}
+
+int				ft_cdhome(char ***env)
+{
+	char		buf[512];
+	char		*home;
+
+	if (!(home = getenv("HOME")))
+		return (ft_cderr("cd: HOME not set\n", NULL));
+	if (!getcwd(buf, 512))
+		return (ft_cderr(buf, NULL));
+	if (!ft_setpwd("OLDPWD", buf, env))
+		return (0);
+	if (!ft_setpwd("PWD", home, env))
+		return (0);
+	if (chdir(home) == -1)
+		return (ft_cderr("cd: chdir error\n", NULL));
 	return (1);
-	
 }

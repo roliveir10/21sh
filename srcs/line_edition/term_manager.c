@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 02:00:25 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/07 21:44:57 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 16:44:30 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,25 @@ void				ft_term_manager(t_env *env)
 	t_tc			*tc;
 	t_cm			*cm;
 	t_cpy			*cpy;
+	t_mode			*mode;
 
-	if (!(tc = (t_tc*)ft_memalloc(sizeof(t_tc))))
-		ft_errorterm(TMALLOC, env);
-	if (!(cm = (t_cm*)ft_memalloc(sizeof(t_cm))))
-		ft_errorterm(TMALLOC, env);
-	if (!(cpy = (t_cpy*)ft_memalloc(sizeof(t_cpy))))
+	tc = (t_tc*)ft_memalloc(sizeof(t_tc));
+	cm = (t_cm*)ft_memalloc(sizeof(t_cm));
+	cpy = (t_cpy*)ft_memalloc(sizeof(t_cpy));
+	mode = (t_mode*)ft_memalloc(sizeof(t_mode));
+	if (!tc || !cm || !cpy || !mode)
 		ft_errorterm(TMALLOC, env);
 	env->ry = NULL;
 	ft_bzero(tc, sizeof(t_tc));
 	ft_bzero(cm, sizeof(t_cm));
 	ft_bzero(cpy, sizeof(t_cpy));
+	ft_bzero(mode, sizeof(t_mode));
 	env->tc = tc;
 	env->tc->tc = 1;
 	env->cm = cm;
 	env->cpy = cpy;
+	env->mode = mode;
+	env->mode->mode[0] = 1;
 	ft_configterm(env);
 	signal_saved(env);
 }

@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 13:23:56 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/08 15:34:46 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 11:58:01 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int			ft_new_pwd(t_cdflag flag, char ***env)
 		return (ft_cdminus(env));
 	else if (flag.path)
 		return (ft_cdpath(flag, env));
+	else
+		return (ft_cdhome(env));
 	return (1);
 }
 

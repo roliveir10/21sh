@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 04:08:34 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/02 15:23:24 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/04/10 16:04:04 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void				ft_delenv(t_env *env)
 		ft_memdel((void**)&(env->cm));
 	if (env->cpy)
 		ft_free_cpy(env);
-	//if (env->isatty && env->line)
-	//	ft_strdel(&(env->line));
 	if (env->oldline)
 		ft_strdel(&(env->oldline));
 	if (env->ry)
 		ft_free_history(env->ry);
+	if (env->mode)
+		ft_memdel((void**)&(env->mode));
 }

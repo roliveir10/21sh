@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 02:36:49 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/03 11:11:32 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:17:07 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 void				ft_init_cpy(t_env *env)
 {
-	env->select = 1;
+	env->mode->n_select = 1;
 	env->cpy->pos = env->cm->pos;
 }
 
 static void			ft_escap_cpy(t_env *env, int move_cursor)
 {
-	env->select = 0;
+	env->mode->n_select = 0;
 	if (!move_cursor || env->cm->pos == env->cpy->pos)
 		return ;
 	if (env->cm->pos < env->cpy->pos)

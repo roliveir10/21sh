@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 03:17:58 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/07 14:56:26 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:17:29 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void			ft_dispatcher(t_env *env, int last_pos)
 
 void				ft_print_line(t_env *env)
 {
-	if (!env->select || env->cm->pos == env->cpy->pos)
+	if (!env->mode->n_select || env->cm->pos == env->cpy->pos)
 		ft_putstr(env->line);
 	else
 		ft_dispatcher(env, env->cpy->pos);
