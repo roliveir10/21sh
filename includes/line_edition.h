@@ -181,6 +181,8 @@ int						ft_gety(t_env *env, int pos);
 int						ft_get_termroom(t_env *env);
 void					ft_reset_cursor(t_env *env);
 int						ft_get_origin_pos(t_env *env);
+void					ft_rbig_jump(t_env *env);
+void					ft_lbig_jump(t_env *env);
 
 /*
 **	line_alloc
@@ -196,8 +198,8 @@ char					*ft_get_prompt(t_prompt prompt);
 **	history
 */
 
-void					ft_get_uhistory(t_env *env);
-void					ft_get_dhistory(t_env *env);
+void					ft_get_uhistory(t_env *env, int count);
+void					ft_get_dhistory(t_env *env, int count);
 void					ft_reset_history(t_env *env);
 
 /*
@@ -249,10 +251,16 @@ int						ft_tmp(t_env *env, char *str);
 */
 
 int						ft_line_vi(t_env *env, char *str, int ret);
-int						ft_vi_command(t_env *env, char *str, int ret,
-		int *count);
+int						ft_vi_command(t_env *env, char *str, int ret);
 int						ft_hash_insert(t_env *env);
-int						ft_get_count(t_env *env, int count);
+void						ft_get_count(t_env *env, char *str);
+void						ft_reset_count(t_env *env, char *str);
+int						ft_reset_mode(t_env *env);
+void						ft_wjump(t_env *env, int count);
+void						ft_bigwjump(t_env *env, int count);
+void						ft_ejump(t_env *env, int count);
+void						ft_bigejump(t_env *env, int count);
+
 /*
 **	read_line_mode
 */

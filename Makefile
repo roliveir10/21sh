@@ -94,7 +94,9 @@ SRC_VI_RD_NAME = getrd_keys.c\
 				 setmode.c\
 				 vi_command.c\
 				 alloc_vi.c\
-				 vi_edition.c
+				 vi_edition.c\
+				jump_big_words.c\
+				jump_vi_manager.c
 
 SRC_SIG_NAME = signal_func.c signal_handler.c
 

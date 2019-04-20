@@ -26,6 +26,8 @@ static int			ft_new_mode(t_env *env, t_emode mode)
 		i++;
 	}
 	env->mode->n_select = 0;
+	if (mode == MVI)
+		env->mode->v_insert = 1;
 	return (1);
 }
 
@@ -37,5 +39,15 @@ int					ft_tmp(t_env *env, char *str)
 		return (ft_new_mode(env, MVI));
 	else if (str[0] == -30 && str[1] == -119 && str[2] == -96)
 		return (ft_new_mode(env, MREADLINE));
+	return (0);
+}
+
+int					ft_reset_mode(t_env *env)
+{
+	if (!env->mode->mode[MVI])
+		return (0);
+	env->mode->v_insert = 1;
+	env->mode->v_command = 0;
+	env->mode->v_count = 0;
 	return (0);
 }

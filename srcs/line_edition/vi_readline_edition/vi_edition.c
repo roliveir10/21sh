@@ -11,13 +11,24 @@
 /* ************************************************************************** */
 
 #include "line_edition.h"
+#include "libft.h"
 
-int				ft_get_count(t_env *env, int count)
+void				ft_get_count(t_env *env, char *str)
 {
-	if (!count)
-	{
+	int			tmp;
+
+	tmp = ft_atoi(str);
+	if (tmp || str[0] == '0')
+		env->mode->v_count = env->mode->v_count * 10 + tmp;
+	else if (!env->mode->v_count)
+		env->mode->v_count = 1;
+}
+
+void				ft_reset_count(t_env *env, char *str)
+{
+	int			tmp;
+
+	tmp = ft_atoi(str);
+	if (!tmp && str[0] != '0' && env->mode->v_count)
 		env->mode->v_count = 0;
-		count = 0;
-	}
-	return (count);
 }

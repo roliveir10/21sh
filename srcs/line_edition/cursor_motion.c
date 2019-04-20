@@ -62,8 +62,8 @@ void			ft_cursor_motion(t_env *env, t_move move, int len)
 		else if (move == MLEFT && ft_ismoving(env, move))
 			ft_cursor_left(env);
 		else if (move == MUP)
-			ft_get_uhistory(env);
+			ft_get_uhistory(env, 1);
 		else if (move == MDOWN)
-			ft_get_dhistory(env);
+			ft_get_dhistory(env, 1);
 	}
 }

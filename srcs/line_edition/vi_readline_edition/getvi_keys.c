@@ -43,25 +43,17 @@ static int			ft_vi_insert(t_env *env, char *str, int ret)
 int					ft_line_vi(t_env *env, char *str, int ret)
 {
 	int				reset;
-	static int		count = 0;
 
 	reset = 1;
 	if (ft_tmp(env, str) && !env->mode->mode[MVI])
 		return (0);
 	if (str[0] == '\n' && ret == 1)
-		return (0);
+		return (ft_reset_mode(env));
 	if (env->mode->v_insert)
 		return (ft_vi_insert(env, str, ret));
 	else if (env->mode->v_command)
-		reset = ft_vi_command(env, str, ret, &count);
-	if (!count)
-		env->mode->v_count = 1;
-	//count = ft_get_count(env, count);
+		reset = ft_vi_command(env, str, ret);
 	if (!reset)
-	{
-		env->mode->v_command = 0;
-		env->mode->v_insert = 1;
-		return (0);
-	}
+		return (ft_reset_mode(env));
 	return (1);
 }
