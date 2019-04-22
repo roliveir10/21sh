@@ -50,7 +50,7 @@ int					ft_line_arrow(t_env *env, char *str)
 	else if (env->mode->mode[MNORMAL] && !ft_strcmp(str, DJUMP))
 		ft_cursor_motion(env, MRIGHT, env->cm->term_x);
 	else if (env->mode->mode[MNORMAL] && !ft_strcmp(env->tc->kh, str))
-		ft_home(env);
+		ft_home(env, 1);
 	else if (env->mode->mode[MNORMAL] && !ft_strcmp(TEND, str))
 		ft_end(env);
 	else

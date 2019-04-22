@@ -18,6 +18,8 @@ static void			ft_dispatcher(t_env *env, int last_pos)
 	int				i;
 
 	i = 0;
+	ft_putnbr(env->mode->n_select);
+	while (1);
 	while (i < env->cm->pos && i < last_pos)
 	{
 		ft_putchar(env->line[i]);

@@ -25,10 +25,16 @@ int					ft_vi(t_env *env, char *str)
 
 static int			ft_vi_insert(t_env *env, char *str, int ret)
 {
+	int			i;
+
+	i = -1;
 	if (str[0] == 27 && ret == 1)
 	{
 		env->mode->v_command = 1;
 		env->mode->v_insert = 0;
+		env->mode->v_count = 0;
+		while (++i < 4)
+			env->mode->v_prior[i] = 0;
 		return (1);
 	}
 	if (ft_line_ascii(env, str, ret))

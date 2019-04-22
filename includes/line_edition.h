@@ -103,11 +103,14 @@ typedef struct			s_history
 
 typedef struct			s_mode
 {
-	int					mode[MODE];
 	int					n_select;
 	int					v_command;
 	int					v_insert;
 	int					v_count;
+	int					v_prior[4];
+	char					v_lastc;
+	char					v_lasta;
+	int					mode[MODE];
 }						t_mode;
 
 typedef struct			s_env
@@ -173,7 +176,7 @@ void					ft_cursor_motion(t_env *env, t_move move, int len);
 void					ft_cursor_ry(t_env *env);
 void					ft_ljump(t_env *env);
 void					ft_rjump(t_env *env);
-void					ft_home(t_env *env);
+void					ft_home(t_env *env, int blank);
 void					ft_end(t_env *env);
 void					ft_clear_line(t_env *env);
 int						ft_getx(t_env *env, int pos);
@@ -181,8 +184,6 @@ int						ft_gety(t_env *env, int pos);
 int						ft_get_termroom(t_env *env);
 void					ft_reset_cursor(t_env *env);
 int						ft_get_origin_pos(t_env *env);
-void					ft_rbig_jump(t_env *env);
-void					ft_lbig_jump(t_env *env);
 
 /*
 **	line_alloc
@@ -253,13 +254,16 @@ int						ft_tmp(t_env *env, char *str);
 int						ft_line_vi(t_env *env, char *str, int ret);
 int						ft_vi_command(t_env *env, char *str, int ret);
 int						ft_hash_insert(t_env *env);
-void						ft_get_count(t_env *env, char *str);
+int						ft_get_count(t_env *env, char *str);
 void						ft_reset_count(t_env *env, char *str);
 int						ft_reset_mode(t_env *env);
 void						ft_wjump(t_env *env, int count);
-void						ft_bigwjump(t_env *env, int count);
 void						ft_ejump(t_env *env, int count);
-void						ft_bigejump(t_env *env, int count);
+void						ft_bjump(t_env *env, int count);
+void						ft_pipejump(t_env *env, int count);
+void						ft_jump_occur(t_env *env, char c, int i, int count);
+int						ft_get_prior_flag(t_env *env, char *str);
+void						ft_repeat(t_env *env, int rev);
 
 /*
 **	read_line_mode

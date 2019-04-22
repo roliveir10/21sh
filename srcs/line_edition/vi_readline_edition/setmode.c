@@ -44,10 +44,15 @@ int					ft_tmp(t_env *env, char *str)
 
 int					ft_reset_mode(t_env *env)
 {
+	int				i;
+
+	i = -1;
 	if (!env->mode->mode[MVI])
 		return (0);
 	env->mode->v_insert = 1;
 	env->mode->v_command = 0;
 	env->mode->v_count = 0;
+	while (++i < 4)
+		env->mode->v_prior[i] = 0;
 	return (0);
 }
