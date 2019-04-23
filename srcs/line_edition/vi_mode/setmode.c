@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 16:34:56 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/23 12:06:25 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 14:55:43 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int					ft_reset_mode(t_env *env, int ins, int com)
 		return (0);
 	if (env->mode->v_replace)
 		env->mode->v_replace = 0;
+	if (env->mode->v_del)
+		env->mode->v_del = 0;
 	env->mode->v_insert = ins;
 	env->mode->v_command = com;
 	env->mode->v_count = 0;

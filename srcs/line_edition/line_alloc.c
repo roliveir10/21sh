@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 22:52:39 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/23 11:54:26 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 20:27:17 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ char				*ft_get_prompt(t_prompt prompt)
 		return (ft_strdup("pipe> "));
 	else if (prompt == PHEREDOC)
 		return (ft_strdup("heredoc> "));
+	else if (prompt == PBACKS)
+		return (ft_strdup("bs> "));
+	else if (prompt == PDEF)
+		return (ft_strdup("> "));
 	return (NULL);
 }
 
@@ -55,6 +59,8 @@ char				*ft_delchar(t_env *env, int size)
 
 	if (env->cm->pos <= env->p_size)
 		return (env->line);
+	if (size > env->cm->pos - env->p_size)
+		size = env->cm->pos - env->p_size;
 	if (!(fresh = ft_strnew(env->len - size)))
 		ft_errorterm(TMALLOC, env);
 	ft_strncpy(fresh, env->line, env->cm->pos - size);
@@ -69,6 +75,8 @@ char				*ft_delchar_bs(t_env *env, int size)
 
 	if (env->cm->pos == env->len)
 		return (env->line);
+	if (size > env->len - env->cm->pos)
+		size = env->len - env->cm->pos;
 	if (!(fresh = ft_strnew(env->len - size)))
 		ft_errorterm(TMALLOC, env);
 	ft_strncpy(fresh, env->line, env->cm->pos);

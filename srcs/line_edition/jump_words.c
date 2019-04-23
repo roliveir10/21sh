@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 03:54:03 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/06 19:13:12 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 19:51:19 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 
 void				ft_home(t_env *env, int blank)
 {
+	int				i;
+
 	ft_cursor_motion(env, MLEFT, env->cm->pos - env->p_size);
+	i = env->cm->pos;
 	if (!blank)
-		ft_rjump(env);
+	{
+		while (env->line[i] && env->line[i] == ' ')
+			i++;
+		ft_cursor_motion(env, MRIGHT, i - env->cm->pos);
+	}
 }
 
 void				ft_end(t_env *env)

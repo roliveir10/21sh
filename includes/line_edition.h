@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:21:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/23 12:11:29 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 20:27:25 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef enum			e_prompt
 	PDQUOTE = 8,
 	PPIPE = 6,
 	PHEREDOC = 9,
+	PBACKS = 4,
+	PDEF = 2
 }						t_prompt;
 
 typedef enum			e_emode
@@ -110,6 +112,8 @@ typedef struct			s_mode
 	char				v_lastc;
 	char				v_lasta;
 	int					v_replace;
+	int					v_del;
+	int					v_pos;
 	int					mode[MODE];
 }						t_mode;
 
@@ -253,6 +257,8 @@ int						ft_tmp(t_env *env, char *str);
 
 int						ft_line_vi(t_env *env, char *str, int ret);
 int						ft_vi_command(t_env *env, char *str, int ret);
+int						ft_vi_motion(t_env *env, char *str, int ret);
+int						ft_vi_delete(t_env *env, char *str, int ret);
 int						ft_hash_insert(t_env *env);
 int						ft_get_count(t_env *env, char *str);
 void					ft_reset_count(t_env *env, char *str);
@@ -266,5 +272,6 @@ int						ft_get_prior_flag(t_env *env, char *str);
 void					ft_repeat(t_env *env);
 void					ft_rev_repeat(t_env *env);
 char					*ft_replace_str(t_env *env, char *str, int len);
+void					ft_cdel(t_env *env);
 
 #endif

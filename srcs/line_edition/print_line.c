@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 03:17:58 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/10 17:17:29 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 15:58:49 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static void			ft_dispatcher(t_env *env, int last_pos)
 	int				i;
 
 	i = 0;
-	ft_putnbr(env->mode->n_select);
-	while (1);
 	while (i < env->cm->pos && i < last_pos)
 	{
 		ft_putchar(env->line[i]);
