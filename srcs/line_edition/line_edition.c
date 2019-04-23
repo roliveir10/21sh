@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 22:59:54 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/10 17:16:44 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 12:07:52 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static int			ft_choose_mode(t_env *env, char *str, int ret)
 		cap = ft_line_cpy(env, str, ret);
 	else if (env->mode->mode[MVI])
 		cap = ft_line_vi(env, str, ret);
-	else if (env->mode->mode[MREADLINE])
-		cap = ft_line_readline(env, str, ret);
 	else
 		cap = ft_line_manager(env, str, ret);
 	return (cap);

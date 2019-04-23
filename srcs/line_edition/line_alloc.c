@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 22:52:39 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/06 19:14:29 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:54:26 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char				*ft_addstr(t_env *env, char *str)
 	len = env->len + (int)ft_strlen(str);
 	if (len > BUFF_SIZE - 10)
 		return (env->line);
+	if (env->mode->v_replace)
+		return (ft_replace_str(env, str, len));
 	if (!(fresh = ft_strnew(len)))
 		ft_errorterm(TMALLOC, env);
 	ft_strncpy(fresh, env->line, env->cm->pos);

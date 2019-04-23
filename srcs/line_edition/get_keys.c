@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 03:46:52 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/11 14:49:13 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/04/23 12:07:18 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ int					ft_line_manager(t_env *env, char *str, int ret)
 	else if (ft_line_history(env, str))
 		return (1);
 	else if (ft_vi(env, str))
-		return (1);
-	else if (ft_read_line(env, str))
 		return (1);
 	return (1);
 }
