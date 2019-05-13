@@ -6,77 +6,79 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 22:59:54 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/23 12:07:52 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:36:26 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
 #include <stdlib.h>
-#include "libft.h"
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-void				ft_update_termsize(t_env *env)
+void				line_update_termsize(void)
 {
 	struct winsize	w;
 
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &w) == -1)
-		ft_errorterm(TIOCTL, env);
-	env->cm->term_x = w.ws_col;
-	env->cm->term_y = w.ws_row;
+		sh_errorterm(TIOCTL);
+	g_env.cm->term_x = w.ws_col;
+	g_env.cm->term_y = w.ws_row;
 }
 
-void				ft_clear_line(t_env *env)
+void				line_clear(void)
 {
 	int				i;
 
 	i = -1;
-	while (++i < env->cm->tmpy)
-		tputs(env->tc->up, 1, ft_putchar);
-	tputs(env->tc->cd, 1, ft_putchar);
-	tputs(env->tc->cr, 1, ft_putchar);
-	tputs(env->tc->dl, 1, ft_putchar);
+	while (++i < g_env.cm->tmpy)
+		tputs(g_env.tc->up, 1, ft_putchar);
+	tputs(g_env.tc->cd, 1, ft_putchar);
+	tputs(g_env.tc->cr, 1, ft_putchar);
+	tputs(g_env.tc->dl, 1, ft_putchar);
 }
 
-void				ft_paste(t_env *env, char *str)
+void				line_paste(char *str, int count)
 {
+	int				tmp;
+
+	tmp = count + 1;
 	if (!str)
 		return ;
-	env->line = ft_addstr(env, str);
-	ft_reset_history(env);
-	ft_strdel(&env->oldline);
-	if (!(env->oldline = ft_strdup(env->line)))
-		ft_errorterm(TMALLOC, env);
-	ft_cursor_motion(env, MRIGHT, (int)ft_strlen(str));
+	while (--tmp)
+		g_env.line = line_addstr(str);
+	line_reset_history();
+	ft_strdel(&g_env.oldline);
+	if (!(g_env.oldline = ft_strdup(g_env.line)))
+		sh_errorterm(TMALLOC);
+	line_cursor_motion(MRIGHT, (int)ft_strlen(str) * count);
 }
 
-static int			ft_choose_mode(t_env *env, char *str, int ret)
+static int			line_choose_mode(char *str, int ret)
 {
 	int				cap;
-	
-	if (env->mode->n_select)
-		cap = ft_line_cpy(env, str, ret);
-	else if (env->mode->mode[MVI])
-		cap = ft_line_vi(env, str, ret);
+
+	if (g_env.mode->n_select)
+		cap = line_cpy(str, ret);
+	else if (g_env.mode->mode[MVI])
+		cap = line_vi(str, ret);
 	else
-		cap = ft_line_manager(env, str, ret);
+		cap = line_manager(str, ret);
 	return (cap);
 }
 
-int					ft_update_line(t_env *env, char *str, int ret)
+int					line_update(char *str, int ret)
 {
-	int				i;
 	int				cap;
 
-	i = -1;
 	if (!str)
 		return (0);
-	env->len = (int)ft_strlen(env->line) + 1;
-	cap = ft_choose_mode(env, str, ret);
-	env->len = (int)ft_strlen(env->line);
-	ft_clear_line(env);
-	ft_print_line(env);
-	ft_reset_cursor(env);
-	env->cm->tmpy = ft_gety(env, env->cm->pos);
+	vi_init_undo();
+	g_env.len = (int)ft_strlen(g_env.line) + 1;
+	cap = line_choose_mode(str, ret);
+	g_env.len = (int)ft_strlen(g_env.line);
+	line_clear();
+	line_print();
+	line_reset_cursor();
+	g_env.cm->tmpy = line_gety(g_env.cm->pos);
 	return (cap);
 }

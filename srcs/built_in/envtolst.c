@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 17:48:06 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/10 12:10:07 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/03 12:36:12 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int					ft_free_lstenv(t_lstenv **env)
 {
-	if (!*env)
+	if (!env || !*env)
 		return (0);
 	if (*env && (*env)->next)
 		ft_free_lstenv(&((*env)->next));
@@ -24,9 +24,7 @@ int					ft_free_lstenv(t_lstenv **env)
 		ft_strdel(&((*env)->name));
 	if ((*env)->value)
 		ft_strdel(&((*env)->value));
-	if (*env)
-		free(*env);
-	*env = NULL;
+	ft_memdel((void**)&(*env));
 	return (0);
 }
 

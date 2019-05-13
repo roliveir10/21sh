@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 14:52:45 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/08 13:12:29 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/03 16:07:54 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static void			ft_free_env(t_lstenv **env)
 		ft_strdel(&(*env)->name);
 	if ((*env)->value)
 		ft_strdel(&(*env)->value);
-	if (*env)
-		free(*env);
-	*env = NULL;
+	ft_memdel((void**)&(*env));
 }
 
 static int			ft_unset_first(char **tab, t_lstenv **env)
@@ -87,6 +85,8 @@ int					ft_unsetenv(char **args, char ***env)
 	lstenv = NULL;
 	if (!ft_envtolst(&lstenv, *env))
 		return (ft_free_lstenv(&lstenv));
+	if (!lstenv)
+		return (0);
 	if (ft_unset_first(args, &lstenv))
 	{
 		ret = ft_lsttotab(lstenv, env);

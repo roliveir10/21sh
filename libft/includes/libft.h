@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 17:28:12 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/06 20:18:20 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/02 20:23:22 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+int					ft_abs(int x);
 void				ft_swap_int(int *a, int *b);
 void				ft_swap(char **a, char **b);
 void				ft_sort_tab(char ***tab);

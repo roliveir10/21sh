@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 15:53:38 by roliveir          #+#    #+#             */
-/*   Updated: 2019/02/03 10:18:36 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:30:40 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int				get_next_line(const int fd, char **line)
 	int			ret;
 	char		*tmp;
 
-	ret = 1;
 	if (fd < 0 || !line || BUFF_SIZE < 1 || fd > 1022)
 		return (-1);
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)

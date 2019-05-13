@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 03:25:44 by roliveir          #+#    #+#             */
-/*   Updated: 2019/01/29 21:03:19 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:35:50 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void			ft_putnbr_base(int nbr, char *base)
 	int			result[50];
 	int			i;
 
-	nbr_conv = 0;
 	i = 0;
 	if (nbr == 0)
 		ft_putchar('0');

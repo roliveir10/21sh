@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 18:29:37 by roliveir          #+#    #+#             */
-/*   Updated: 2018/12/01 15:09:10 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:31:53 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int				ft_nbr_ascii(t_flag flag, long double flt)
 		count++;
 		flt = flt / 10;
 	}
-	flt = flt < 0 ? -flt : flt;
 	if (flag.prec == -1)
 		return (count);
 	if (!flag.prec)

@@ -6,13 +6,13 @@
 #    By: roliveir <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/28 01:21:35 by roliveir          #+#    #+#              #
-#    Updated: 2019/04/23 20:02:29 by roliveir         ###   ########.fr        #
+#    Updated: 2019/05/04 16:11:05 by roliveir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 INC_PATH = includes/
 LIB_INC_PATH = libft/includes/
@@ -37,9 +37,12 @@ SRC_LEX_NAME = lex.c\
 			   more.c\
 			   add_char.c\
 			   print_state.c\
+			   ft_free_stat.c\
+			   ft_free_token.c\
 			   get_state.c
 
 SRC_PARS_NAME = pars.c\
+				ft_prepars.c\
 				pars_line.c\
 				ft_select_pars.c\
 				ft_cleans_spa.c\
@@ -49,12 +52,13 @@ SRC_PARS_NAME = pars.c\
 				pars_nword.c\
 				pars_part.c\
 				pars_red.c\
-				pars_rer_lr.c\
 				tool_pars.c\
 				print_tree.c\
+				free_tree.c\
 				work_tree.c
 
 SRC_EXEC_NAME = ft_exec.c\
+				ft_exec_tool.c\
 				ft_launch_cmd.c\
 				init_exe.c\
 				ft_split_path.c\
@@ -67,50 +71,72 @@ SRC_EXEC_NAME = ft_exec.c\
 				ft_launch_pipe.c\
 				ft_pile.c\
 				exec_cmd.c\
+				ft_expend.c\
+				ft_expend_tool.c\
 				ft_path.c
-
-SRC_LINE_NAME = line_edition.c\
-		  		term_manager.c\
-		  		line_read.c\
-		 		termcaps.c\
-		 		cursor_motion.c\
-				line_alloc.c\
-		 		history.c\
-				get_keys.c\
-				jump_words.c\
-				del_env.c\
-				coordinates_calc.c\
-				cpy.c\
-				isalt.c\
-				print_line.c\
-				reset_cursor.c\
-				line_read_notty.c
 
 SRC_BUILT_NAME = ft_echo.c\
 				 ft_cd.c\
 				 ft_env.c\
 				 ft_setenv.c\
-				 ft_env_tools.c\
+				 exec_env.c\
+				 ft_setenv_eq.c\
 				 ft_unsetenv.c\
+				 blt_edition.c\
 				 envtolst.c\
 				 lsttotab.c\
 				 built_manager.c\
 				 cdflag.c\
 				 cdpwd.c\
 				 cdfunc.c\
-				 envoption.c
+				 envoption.c\
+				 blt_history.c
 
-SRC_VI_NAME = getvi_keys.c\
-				 setmode.c\
-				 vi_command.c\
-				 alloc_vi.c\
-				 vi_edition.c\
-				 jump_vi_manager.c\
-				 jump_occur.c\
-				 vi_repeat.c\
-				 vi_com_motion.c\
-				 vi_cdel.c\
-				 vi_delete.c
+SRC_VI_NAME = \
+			vi_alloc.c			\
+			vi_getkeys.c		\
+			vi_setmode.c		\
+			vi_command.c		\
+			vi_count.c			\
+			vi_jumpoccur.c		\
+			vi_cdel.c			\
+			vi_com_motion.c		\
+			vi_delete.c			\
+			vi_history.c		\
+			vi_insert.c			\
+			vi_paste.c			\
+			vi_repeat.c			\
+			vi_undo.c			\
+			vi_visual.c			\
+			vi_yank.c			\
+			vi_jump_manager.c	\
+			vi_prior_flag.c		\
+			vi_alloc_replace.c	\
+			vi_alloc_count.c
+
+SRC_LINE_NAME =	\
+			line_cpy.c			\
+			line_curmotion.c	\
+			line_delenv.c		\
+			line_getkeys.c		\
+			line_history.c		\
+			line_del.c			\
+			line_isalt.c		\
+			line_jumpwords.c	\
+			line_alloc.c		\
+			line_edition.c		\
+			line_read_notty.c	\
+			line_read.c			\
+			line_print.c		\
+			line_resetcurs.c	\
+			line_term.c			\
+			line_calc.c			\
+			line_termcaps.c		\
+			line_iskeymotion.c	\
+			line_iskeydel.c		\
+			line_quit.c			\
+			line_cxjump.c		\
+			line_undo.c
 
 SRC_SIG_NAME = signal_func.c signal_handler.c
 
@@ -159,6 +185,7 @@ $(OBJ_PATH)%.o : $(SRC_BUILT_PATH)%.c
 	@$(CC) $(CFLAGS) -I $(INC_PATH) -I $(LIB_INC_PATH) -o $@ -c $<
 $(OBJ_PATH)%.o : $(SRC_VI_PATH)%.c
 	@$(CC) $(CFLAGS) -I $(INC_PATH) -I $(LIB_INC_PATH) -o $@ -c $<
+
 
 clean:
 	@make clean -C libft

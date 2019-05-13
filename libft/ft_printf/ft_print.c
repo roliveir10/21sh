@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 11:09:26 by roliveir          #+#    #+#             */
-/*   Updated: 2018/12/07 18:29:27 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:36:10 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ void	ft_print_dif(char *str, t_flag *flag, int *len, char c)
 
 void	ft_print_csp(char *str, t_flag *flag, int *len, char c)
 {
-	int i;
-
-	i = 0;
 	if (flag->size > 0 && !flag->minus)
 		ft_field(flag, len);
 	if (flag->prec && c == 's')

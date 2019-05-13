@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:22:56 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/08 15:28:46 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/12 17:03:47 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,4 @@ int					ft_setpwd(char *name, char *value, char ***env)
 	ret = ft_setenv(args, env);
 	ft_del_words_tables(&args);
 	return (ret);
-}
-
-int					ft_pwd_update(t_cdflag flag, char ***env)
-{
-	char			buf[512];
-	char			*pwd;
-
-	(void)flag;
-	if ((pwd = getenv("PWD")))
-		return (1);
-	if (!getcwd(buf, 512))
-		return (ft_cderr(buf, NULL));
-	if (!ft_setpwd("PWD", buf, env))
-		return (0);
-	return (1);
 }

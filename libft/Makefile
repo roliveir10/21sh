@@ -6,7 +6,7 @@
 #    By: roliveir <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 10:41:12 by roliveir          #+#    #+#              #
-#    Updated: 2019/04/02 13:14:43 by roliveir         ###   ########.fr        #
+#    Updated: 2019/05/02 20:23:33 by roliveir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS = ft_bzero.c\
 	   ft_memcpy.c\
 	   ft_memset.c\
 	   ft_memccpy.c\
+	   ft_abs.c\
 	   ft_memmove.c\
 	   ft_memchr.c\
 	   ft_memcmp.c\

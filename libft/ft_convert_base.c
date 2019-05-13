@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 01:50:18 by roliveir          #+#    #+#             */
-/*   Updated: 2019/01/29 22:24:43 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:32:27 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static char		*ft_put2(int nbr, char *base)
 	char		*t;
 	int			neg;
 
-	n = 0;
 	i = -1;
 	neg = nbr > 0 ? 1 : -1;
 	nbr = nbr > 0 ? nbr : -nbr;

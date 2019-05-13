@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 13:23:56 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/10 11:58:01 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/12 16:58:06 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int					ft_cd(char **args, char ***env)
 	if (!args || !*args)
 		return (0);
 	if (!ft_getoption(&args[1], &flag))
-		return (ft_free_cdflag(&flag));
-	if (!ft_pwd_update(flag, env))
 		return (ft_free_cdflag(&flag));
 	ret = ft_new_pwd(flag, env);
 	ft_free_cdflag(&flag);

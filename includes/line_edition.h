@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:21:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/23 20:27:25 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 14:29:05 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,24 @@
 
 # include <termios.h>
 # include <termcap.h>
+# include "libft.h"
+# include "vi_edition.h"
 
-# define LJUMP "\033\033[D"
-# define RJUMP "\033\033[C"
 # define UJUMP "\033\033[A"
 # define DJUMP "\033\033[B"
 # define TEND "\033OF"
+# define CTRLA '\001'
+# define CTRLB '\002'
 # define CTRLD '\004'
-
-# define MODE 3
+# define CTRLE '\005'
+# define CTRLF '\006'
+# define CTRLK '\013'
+# define CTRLN '\016'
+# define CTRLP '\020'
+# define CTRLU '\025'
+# define CTRLW '\027'
+# define CTRLX '\030'
+# define CTRLUND '\037'
 
 typedef enum			e_error
 {
@@ -52,12 +61,6 @@ typedef enum			e_prompt
 	PBACKS = 4,
 	PDEF = 2
 }						t_prompt;
-
-typedef enum			e_emode
-{
-	MNORMAL,
-	MVI,
-}						t_emode;
 
 typedef struct			s_tc
 {
@@ -89,12 +92,6 @@ typedef struct			s_cm
 	int					tmpy;
 }						t_cm;
 
-typedef struct			s_cpy
-{
-	char				*str;
-	int					pos;
-}						t_cpy;
-
 typedef struct			s_history
 {
 	char				*line;
@@ -102,27 +99,19 @@ typedef struct			s_history
 	struct s_history	*prev;
 }						t_history;
 
-typedef struct			s_mode
+typedef struct			s_ctrlxx
 {
-	int					n_select;
-	int					v_command;
-	int					v_insert;
-	int					v_count;
-	int					v_prior[4];
-	char				v_lastc;
-	char				v_lasta;
-	int					v_replace;
-	int					v_del;
-	int					v_pos;
-	int					mode[MODE];
-}						t_mode;
+	int					pmax;
+	int					pmin;
+	int					count_x;
+	int					lastp;
+}						t_ctrlxx;
 
 typedef struct			s_env
 {
 	struct termios		term;
 	t_tc				*tc;
 	t_cm				*cm;
-	t_cpy				*cpy;
 	int					t_fd;
 	int					isatty;
 	char				*line;
@@ -136,142 +125,141 @@ typedef struct			s_env
 	t_mode				*mode;
 	int					del;
 	int					len;
+	int					cpos;
+	char				s_buffer[BUFF_SIZE + 1];
+	t_ctrlxx			*cx;
+	int					count;
 }						t_env;
+
+struct s_env			g_env;
+
+char					*line_get_readline(t_prompt prompt, char *argv);
+int						line_manager(char *str, int ret);
+int						line_update(char *str, int ret);
+void					line_update_termsize(void);
+int						line_return(void);
+int						line_escap(void);
 
 /*
 ** term_config
 */
 
-void					ft_configterm(t_env *env);
-void					ft_errorterm(t_error error, t_env *env);
-void					ft_term_manager(t_env *env);
-int						ft_quiterm(t_env *env);
-void					ft_delenv(t_env *env);
-void					ft_switch_term(t_env *env, int reset);
-void					ft_update_termsize(t_env *env);
+void					sh_configterm(void);
+void					sh_errorterm(t_error error);
+void					sh_term_manager(void);
+int						sh_quiterm(void);
+void					sh_switch_term(int reset);
 
 /*
-**	line_read
+**	dispatcher
 */
 
-int						ft_reader(t_env *env, char *argv);
-int						ft_update_line(t_env *env, char *str, int ret);
-char					*ft_get_line(t_env *env, t_prompt prompt, char *argv);
-int						ft_line_manager(t_env *env, char *str, int ret);
-int						ft_line_arrow(t_env *env, char *str);
-int						ft_line_ascii(t_env *env, char *str, int ret);
-int						ft_line_history(t_env *env, char *str);
-int						ft_read_isnotatty(t_env *env);
-int						ft_read_isarg(t_env *env, char *argv);
+int						line_motion(char *str, int ret);
+int						line_ascii(char *str, int ret);
+int						line_history(char *str, int ret);
+int						line_del(char *str, int ret);
+int						line_undo(char *str, int ret);
+
+/*
+**	read
+*/
+
+int						line_reader(char *argv);
+int						line_read_isnotatty(void);
+int						line_read_isarg(char *argv);
 
 /*
 ** termcaps
 */
 
-int						ft_addtermcaps(t_tc *tc);
-void					ft_active_termcaps(t_env *env);
-int						ft_check_termcaps(t_tc tc);
+int						caps_addtermcaps(t_tc *tc);
+void					caps_active_termcaps(void);
+int						caps_check_termcaps(t_tc tc);
 
 /*
 ** cursor_motion
 */
 
-void					ft_cursor_motion(t_env *env, t_move move, int len);
-void					ft_cursor_ry(t_env *env);
-void					ft_ljump(t_env *env);
-void					ft_rjump(t_env *env);
-void					ft_home(t_env *env, int blank);
-void					ft_end(t_env *env);
-void					ft_clear_line(t_env *env);
-int						ft_getx(t_env *env, int pos);
-int						ft_gety(t_env *env, int pos);
-int						ft_get_termroom(t_env *env);
-void					ft_reset_cursor(t_env *env);
-int						ft_get_origin_pos(t_env *env);
+void					line_cursor_motion(t_move move, int len);
+void					line_cursor_ry(void);
+void					line_ljump(void);
+void					line_rjump(void);
+void					line_home(int blank);
+int						line_end(void);
+void					line_clear(void);
+int						line_getx(int pos);
+int						line_gety(int pos);
+int						line_get_termroom(void);
+void					line_reset_cursor(void);
+int						line_get_origin_pos(void);
+void					line_cxjump(void);
 
 /*
 **	line_alloc
 */
 
-char					*ft_addstr(t_env *env, char *str);
-char					*ft_delchar(t_env *env, int size);
-char					*ft_delchar_bs(t_env *env , int size);
-char					*ft_alloc_history(t_env *env, int stline);
-char					*ft_get_prompt(t_prompt prompt);
+char					*line_addstr(char *str);
+char					*line_delchar(int size);
+char					*line_delchar_bs(int size);
+char					*line_alloc_history(int stline);
+char					*line_get_prompt(t_prompt prompt);
+void					line_delenv(void);
 
 /*
 **	history
 */
 
-void					ft_get_uhistory(t_env *env, int count);
-void					ft_get_dhistory(t_env *env, int count);
-void					ft_reset_history(t_env *env);
+void					line_get_uhistory(int count);
+void					line_get_dhistory(int count);
+void					line_reset_history(void);
 
 /*
 **	signal
 */
 
-void					ft_signal_handler(int val);
-void					ft_signal(int sg);
-t_env					*signal_saved(t_env *env);
-void					ft_sigint(void);
-void					ft_sigwinch(void);
-void					ft_reset_signal(int val);
-void					ft_null(int sg);
-void					ft_setsig_child(int val);
+void					sig_handler(int val);
+void					sig_manager(int sg);
+void					sig_sigint(void);
+void					sig_sigwinch(void);
+void					sig_reset(int val);
+void					sig_setchild(int val);
 
 /*
 **	cpy/past
 */
 
-void					ft_paste(t_env *env, char *str);
-void					ft_init_cpy(t_env *env);
-int						ft_line_cpy(t_env *env, char *str, int ret);
+void					line_paste(char *str, int count);
+void					line_init_cpy(void);
+int						line_cpy(char *str, int ret);
+void					line_escap_cpy(int move_cursor);
 
 /*
 **	key
 */
 
-int						ft_isaltc(char *str);
-int						ft_isaltx(char *str);
-int						ft_isaltv(char *str);
+int						line_isaltc(char *str, int ret);
+int						line_isaltx(char *str, int ret);
+int						line_isaltv(char *str, int ret);
+int						line_isaltf(char *str, int ret);
+int						line_isaltb(char *str, int ret);
+int						line_ctrld(void);
 
 /*
 **	print
 */
 
-void					ft_print_line(t_env *env);
+void					line_print(void);
 
 /*
-**	mode
+**	vi_readline
 */
 
-
-int						ft_vi(t_env *env, char *str);
-int						ft_read_line(t_env *env, char *str);
-int						ft_tmp(t_env *env, char *str);
-
-/*
-**	vi_mode
-*/
-
-int						ft_line_vi(t_env *env, char *str, int ret);
-int						ft_vi_command(t_env *env, char *str, int ret);
-int						ft_vi_motion(t_env *env, char *str, int ret);
-int						ft_vi_delete(t_env *env, char *str, int ret);
-int						ft_hash_insert(t_env *env);
-int						ft_get_count(t_env *env, char *str);
-void					ft_reset_count(t_env *env, char *str);
-int						ft_reset_mode(t_env *env, int ins, int com);
-void					ft_wjump(t_env *env, int count);
-void					ft_ejump(t_env *env, int count);
-void					ft_bjump(t_env *env, int count);
-void					ft_pipejump(t_env *env, int count);
-void					ft_jump_occur(t_env *env, char c, int i, int count);
-int						ft_get_prior_flag(t_env *env, char *str);
-void					ft_repeat(t_env *env);
-void					ft_rev_repeat(t_env *env);
-char					*ft_replace_str(t_env *env, char *str, int len);
-void					ft_cdel(t_env *env);
+int						line_isleft(char *str, int ret);
+int						line_isright(char *str, int ret);
+int						line_ishome(char *str, int ret);
+int						line_isend(char *str, int ret);
+int						line_iscx(char *str, int ret);
+int						line_isdel(char *str, int ret);
+int						line_isdelrword(char *str, int ret);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/06 00:37:43 by roliveir          #+#    #+#             */
-/*   Updated: 2019/02/07 06:26:45 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:31:14 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ void				ft_sort_tab(char ***tab)
 {
 	int				i;
 	int				j;
-	int				min;
 	int				max;
 
 	i = -1;
-	min = ft_find_max_min(tab, 0);
 	while ((*tab)[++i])
 	{
 		j = i - 1;
@@ -48,6 +46,5 @@ void				ft_sort_tab(char ***tab)
 				max = j;
 		}
 		ft_swap(&(*tab)[max], &(*tab)[i]);
-		min = max;
 	}
 }

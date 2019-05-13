@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 17:58:07 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/07 19:56:04 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:09:51 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 
 int				ft_do_home(int k, char **argv, char ***arge)
 {
-	static int	(*fct_list_home[5])(char**, char***) = {
-		ft_echo, ft_cd, ft_env, ft_setenv, ft_unsetenv};
+	static int	(*fct_list_home[NB_FCT - 1])(char**, char***) = {
+		ft_echo, ft_cd, ft_env, ft_setenv, ft_unsetenv, blt_edition,
+		blt_history};
 
-	if (k < 6 && k > 0)
+	if (k < NB_FCT && k > 0)
 		return (*(fct_list_home[k - 1]))(argv, arge);
 	else
 		return (0);
@@ -29,7 +30,8 @@ int				ft_get_home_cmd(char *name)
 {
 	int			k;
 	static char	*tabl[NB_FCT] = {
-		"exit", "echo", "cd", "env", "setenv", "unsetenv"};
+		"exit", "echo", "cd", "env", "setenv", "unsetenv", "edition",
+		"history"};
 
 	if (!name)
 		return (-1);

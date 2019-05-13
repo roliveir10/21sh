@@ -6,91 +6,90 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:12:12 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/07 21:45:53 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/03 11:40:30 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
-#include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 
-void				ft_switch_term(t_env *env, int reset)
+void				sh_switch_term(int reset)
 {
-	if (!env->tc->tc)
+	if (!g_env.tc->tc)
 		return ;
-	if ((tcgetattr(env->t_fd, &(env->term))) == -1)
-		ft_errorterm(TBADFD, env);
+	if ((tcgetattr(g_env.t_fd, &(g_env.term))) == -1)
+		sh_errorterm(TBADFD);
 	if (reset)
 	{
-		env->term.c_lflag |= (ECHO | ICANON);
-		ft_reset_signal(1);
+		g_env.term.c_lflag |= (ECHO | ICANON);
+		sig_reset(1);
 	}
 	else
 	{
-		ft_signal_handler(1);
-		env->term.c_lflag &= ~(ECHO | ICANON);
+		sig_handler(1);
+		g_env.term.c_lflag &= ~(ECHO | ICANON);
 	}
-	if ((tcsetattr(env->t_fd, TCSANOW, &(env->term))) == -1)
-		ft_errorterm(TBADFD, env);
+	if ((tcsetattr(g_env.t_fd, TCSANOW, &(g_env.term))) == -1)
+		sh_errorterm(TBADFD);
 }
 
-void				ft_errorterm(t_error error, t_env *env)
+void				sh_errorterm(t_error error)
 {
 	ft_putstr_fd("21sh: error ID=", STDERR_FILENO);
 	ft_putnbr_fd(error, STDERR_FILENO);
 	ft_putstr_fd(" Exiting\n", STDERR_FILENO);
 	if (error != TBADFD)
 	{
-		ft_switch_term(env, 1);
-		close(env->t_fd);
+		sh_switch_term(1);
+		close(g_env.t_fd);
 	}
-	ft_delenv(env);
+	line_delenv();
 	exit(error);
 }
 
-int					ft_quiterm(t_env *env)
+int					sh_quiterm(void)
 {
-	if (env->isatty)
+	if (g_env.isatty)
 	{
-		ft_switch_term(env, 1);
-		close(env->t_fd);
+		sh_switch_term(1);
+		close(g_env.t_fd);
 	}
-	ft_delenv(env);
+	line_delenv();
 	exit(0);
 }
 
-static void			ft_initerm(t_env *env)
+static void			sh_initerm(void)
 {
 	int				ret;
 	char			*type;
 
 	type = getenv("TERM");
 	if (type && (ret = tgetent(NULL, type)) < 1)
-		env->tc->tc = 0;
-	if ((env->t_fd = open(ttyname(STDIN_FILENO), O_RDWR)) < 0)
-		ft_errorterm(TTTYNAME, env);
-	if (tcgetattr(env->t_fd, &(env->term)) == -1)
-		ft_errorterm(TBADFD, env);
-	ft_update_termsize(env);
+		g_env.tc->tc = 0;
+	if ((g_env.t_fd = open(ttyname(STDIN_FILENO), O_RDWR)) < 0)
+		sh_errorterm(TTTYNAME);
+	if (tcgetattr(g_env.t_fd, &(g_env.term)) == -1)
+		sh_errorterm(TBADFD);
+	line_update_termsize();
 }
 
-void				ft_configterm(t_env *env)
+void				sh_configterm(void)
 {
 	if (isatty(STDIN_FILENO))
-		env->isatty = 1;
+		g_env.isatty = 1;
 	else
 		return ;
-	ft_initerm(env);
-	if (!ft_addtermcaps(env->tc))
-		env->tc->tc = 0;
-	if (!env->tc->tc)
+	sh_initerm();
+	if (!caps_addtermcaps(g_env.tc))
+		g_env.tc->tc = 0;
+	if (!g_env.tc->tc)
 		return ;
-	env->term.c_cc[VMIN] = 1;
-	env->term.c_cc[VTIME] = 0;
-	env->term.c_lflag &= ~(ICANON | ECHO);
-	if ((tcsetattr(env->t_fd, TCSANOW, &(env->term))) == -1)
-		ft_errorterm(TBADFD, env);
-	ft_active_termcaps(env);
+	g_env.term.c_cc[VMIN] = 1;
+	g_env.term.c_cc[VTIME] = 0;
+	g_env.term.c_lflag &= ~(ICANON | ECHO);
+	if ((tcsetattr(g_env.t_fd, TCSANOW, &(g_env.term))) == -1)
+		sh_errorterm(TBADFD);
+	caps_active_termcaps();
 }

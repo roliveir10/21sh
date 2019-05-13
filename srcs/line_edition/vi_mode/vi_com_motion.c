@@ -6,70 +6,74 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 13:20:36 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/23 20:27:20 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/03 11:56:27 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
 
-static int			ft_vi_priorjump(t_env *env, char *str, int ret)
+static int			vi_priorjump(char *str, int ret)
 {
 	if (str[0] == 'f' && ret == 1)
-		env->mode->v_prior[0] = 1;
+		g_env.mode->v_prior[0] = 1;
 	else if (str[0] == 'F' && ret == 1)
-		env->mode->v_prior[1] = 1;
+		g_env.mode->v_prior[1] = 1;
 	else if (str[0] == 't' && ret == 1)
-		env->mode->v_prior[2] = 1;
+		g_env.mode->v_prior[2] = 1;
 	else if (str[0] == 'T' && ret == 1)
-		env->mode->v_prior[3] = 1;
+		g_env.mode->v_prior[3] = 1;
 	else
 		return (0);
-	env->mode->v_lastc = str[0];
+	g_env.mode->v_lastc = str[0];
 	return (1);
 }
 
-static int			ft_vi_spec_motion(t_env *env, char *str, int ret)
+static int			vi_spec_motion(char *str, int ret)
 {
 	if (str[0] == '^' && ret == 1)
-		ft_home(env, 0);
+		line_home(0);
 	else if (str[0] == '$' && ret == 1)
-		ft_end(env);
+		line_end();
 	else if (str[0] == '0' && ret == 1)
-		ft_home(env, 1);
+		line_home(1);
 	else if (str[0] == '|' && ret == 1)
-		ft_pipejump(env, env->mode->v_count);
+		vi_pipejump(g_env.count);
 	else if (str[0] == ';' && ret == 1)
-		ft_repeat(env);
+		vi_repeat();
 	else if (str[0] == ',' && ret == 1)
-		ft_rev_repeat(env);
+		vi_rev_repeat();
 	else
 		return (0);
-	if (env->mode->v_del)
-		ft_cdel(env);
-	ft_reset_count(env, str);
+	if (g_env.mode->v_del)
+		vi_cdel();
+	if (g_env.mode->v_yank)
+		vi_cpy();
+	vi_reset_count(str);
 	return (1);
 }
 
-int					ft_vi_motion(t_env *env, char *str, int ret)
+int					vi_motion(char *str, int ret)
 {
-	if (ft_vi_priorjump(env, str, ret))
-			return (1);
+	if (vi_priorjump(str, ret))
+		return (1);
 	else if (str[0] == ' ' && ret == 1)
-		ft_cursor_motion(env, MRIGHT, env->mode->v_count);
-	else if (str[0] == 'h' && ret == 1)
-		ft_cursor_motion(env, MLEFT, env->mode->v_count);
+		line_cursor_motion(MRIGHT, g_env.count);
+	else if ((str[0] == 'h' || str[0] == 127) && ret == 1)
+		line_cursor_motion(MLEFT, g_env.count);
 	else if (str[0] == 'l' && ret == 1)
-		ft_cursor_motion(env, MRIGHT, env->mode->v_count);
+		line_cursor_motion(MRIGHT, g_env.count);
 	else if ((str[0] == 'w' || str[0] == 'W') && ret == 1)
-		ft_wjump(env, env->mode->v_count);
+		line_rjump();
 	else if ((str[0] == 'e' || str[0] == 'E') && ret == 1)
-		ft_ejump(env, env->mode->v_count);
+		vi_ejump(g_env.count);
 	else if ((str[0] == 'b' || str[0] == 'B') && ret == 1)
-		ft_bjump(env, env->mode->v_count);
+		line_ljump();
 	else
-		return (ft_vi_spec_motion(env, str, ret));
-	if (env->mode->v_del)
-		ft_cdel(env);
-	ft_reset_count(env, str);
+		return (vi_spec_motion(str, ret));
+	if (g_env.mode->v_del)
+		vi_cdel();
+	if (g_env.mode->v_yank)
+		vi_cpy();
+	vi_reset_count(str);
 	return (1);
 }

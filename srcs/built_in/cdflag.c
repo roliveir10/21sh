@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 13:20:23 by roliveir          #+#    #+#             */
-/*   Updated: 2019/04/08 15:33:40 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:29:42 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,10 @@ static int				ft_check_path(char *str)
 int						ft_getoption(char **args, t_cdflag *flag)
 {
 	int					i;
-	int					j;
 
 	i = -1;
 	while (args[++i])
 	{
-		j = -1;
 		if (args[i][0] != '-' && !ft_getcdpath(args[i], flag))
 			return (0);
 		else if (flag->path && args[i][0] == '-')

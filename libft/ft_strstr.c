@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 18:02:34 by roliveir          #+#    #+#             */
-/*   Updated: 2019/01/29 20:56:49 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:37:45 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char		*ft_strstr(const char *haystack, const char *needle)
 	char	*m_needle;
 
 	i = 0;
-	k = 0;
 	m_haystack = (char*)haystack;
 	m_needle = (char*)needle;
 	if (m_needle[0] == '\0')

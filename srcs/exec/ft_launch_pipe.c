@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 18:49:54 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/16 23:38:31 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:36:13 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-void			ft_pipe_all(int *fdpipe, int nbr_pipes)
+static void		ft_pipe_all(int *fdpipe, int nbr_pipes)
 {
 	int			k;
 
@@ -31,7 +31,7 @@ void			ft_pipe_all(int *fdpipe, int nbr_pipes)
 	}
 }
 
-void			ft_dup_pipe(int *fdpipe, int k, int nbr_pipes)
+static void		ft_dup_pipe(int *fdpipe, int k, int nbr_pipes)
 {
 	if (k * 2 - 2 >= 0)
 		dup2(fdpipe[k * 2 - 2], 0);
@@ -39,7 +39,7 @@ void			ft_dup_pipe(int *fdpipe, int k, int nbr_pipes)
 		dup2(fdpipe[k * 2 + 1], 1);
 }
 
-void			ft_launch_pipe(t_launch *cmd, char ***arge, t_env *env)
+void			ft_launch_pipe(t_launch *cmd, char ***arge)
 {
 	t_launch	*tmp;
 	int			k;
@@ -54,12 +54,15 @@ void			ft_launch_pipe(t_launch *cmd, char ***arge, t_env *env)
 		if (tmp->argv)
 			if (fork() == 0)
 			{
+				sig_setchild(1);
 				ft_dup_pipe(cmd->fdpipe, k, cmd->nbr_pipe);
 				ft_pipe_close(cmd->fdpipe, cmd->nbr_pipe);
-				ft_launch_exe(tmp, arge, env);
-				exit(1);
+				ft_launch_exe(tmp, arge);
+				sh_quiterm();
 			}
 		tmp = tmp->next;
+		if (tmp)
+			tmp->nbr_pipe = cmd->nbr_pipe;
 		k++;
 	}
 	ft_end_of_pipes(cmd->fdpipe, cmd->nbr_pipe);

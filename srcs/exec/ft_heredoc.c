@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/31 01:06:53 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/17 05:04:59 by oboutrol         ###   ########.fr       */
+/*   Created: 2019/05/04 13:15:59 by oboutrol          #+#    #+#             */
+/*   Updated: 2019/05/06 15:47:44 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,51 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 
-void	ft_launch_here(t_env *env, char *end, int fd)
+void		ft_launch_here(char *end, int fd)
 {
-	char *line;
+	char	*line;
+	int		stop;
 
+	stop = 0;
 	line = NULL;
-	while (!line || !end || ft_strcmp(line, end))
+	dup2(0, 1);
+	while (!end || !stop)
 	{
+		line = line_get_readline(PHEREDOC, NULL);
+		if (((!line || !line[0]) && g_env.ctrld) || !ft_strcmp(line, end))
+			stop = 1;
+		else if (end && ft_strcmp(line, end))
+			ft_putendl_fd(line, fd);
 		if (line)
 		{
 			free(line);
 			line = NULL;
 		}
-		line = ft_get_line(env, PHEREDOC, NULL);
-		if (ft_strcmp(line, end))
-			ft_putendl_fd(line, fd);
 	}
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
+	ft_strdel(&end);
 }
 
-int		ft_heredoc(t_env *env, char *end)
+int			ft_heredoc(char *end, t_launch *cmd)
 {
-	int	fdpipe[2];
-	int	success;
-	int	fd;
+	int		fdpipe[2];
+	int		success;
+	int		fd;
 
-	success = -2;
 	pipe(fdpipe);
-	if ((fork()) == 0)
+	if (((success = fork())) == 0)
 	{
+		sig_setchild(1);
 		fd = dup(1);
 		dup2(fdpipe[1], fd);
-		close(fdpipe[1]);
 		close(fdpipe[0]);
-		ft_launch_here(env, end, fd);
-		exit(1);
+		close(fdpipe[1]);
+		ft_launch_here(end, fd);
+		sh_quiterm();
 	}
+	ft_add_pile(0, 0, cmd);
 	dup2(fdpipe[0], 0);
-	close(fdpipe[0]);
 	close(fdpipe[1]);
+	close(fdpipe[0]);
 	wait(&success);
 	return (0);
 }

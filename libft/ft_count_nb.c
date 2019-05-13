@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 18:02:02 by roliveir          #+#    #+#             */
-/*   Updated: 2019/01/30 05:07:26 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:45:36 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int					ft_count_n(int nbr)
 		val = -nbr;
 	else
 		val = nbr;
-	if (!nbr || nbr < 0)
+	if (!val || nbr < 0)
 		count++;
-	while (nbr)
+	while (val)
 	{
-		nbr = nbr / 10;
+		val = val / 10;
 		count++;
 	}
 	return (count);

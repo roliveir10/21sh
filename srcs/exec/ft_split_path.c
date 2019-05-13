@@ -6,14 +6,14 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 00:52:27 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/13 11:16:43 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/04 16:40:20 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-char		*ft_strcut_start(char *str, int k)
+static char	*ft_strcut_start(char *str, int k)
 {
 	int		len;
 	char	*way;
@@ -23,7 +23,7 @@ char		*ft_strcut_start(char *str, int k)
 	return (way);
 }
 
-int			join_path_slash(char **path)
+static int	join_path_slash(char **path)
 {
 	int		k;
 

@@ -6,12 +6,21 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:25:00 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/04/16 21:42:12 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/06 15:43:26 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe.h"
 #include <stdlib.h>
+
+void	ft_free_lstfd(t_lstfd *lst)
+{
+	if (!lst)
+		return ;
+	ft_free_lstfd(lst->next);
+	lst->next = NULL;
+	free(lst);
+}
 
 void	ft_free_tab(char **tabl)
 {
@@ -50,6 +59,8 @@ void	ft_free_cmd(t_launch *cmd)
 	cmd->red = NULL;
 	ft_free_tab(cmd->argv);
 	cmd->argv = NULL;
+	ft_free_lstfd(cmd->lstfd);
+	cmd->lstfd = NULL;
 	if (cmd->fdpipe)
 		free(cmd->fdpipe);
 	cmd->fdpipe = NULL;
