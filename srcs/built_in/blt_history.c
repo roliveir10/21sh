@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 15:58:40 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/12 17:02:42 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/20 13:31:15 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ static void			blt_print(t_history *ry, int i)
 	}
 }
 
-int					blt_history(__unused char **args, __unused char ***env)
+int					blt_history(char **args, char ***env)
 {
 	t_history		*tmp;
 	int				i;
 
+	(void)args;
+	(void)env;
 	tmp = g_env.ry;
 	if (!tmp)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 00:07:27 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/04 16:38:41 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 13:29:35 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int				ft_path(char *name, char **path, char **arge)
 	k = -1;
 	if ((ret = ft_point_slash(name, path)) == 1 || ret == 0)
 		return (ret);
-	if (is_exec(name))
+	if (is_exec(name) && ft_strchr(name, '/'))
 	{
 		*path = ft_strdup(name);
 		return (1);
