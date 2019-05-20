@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 16:45:32 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/04 16:45:37 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 14:44:50 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void		ft_launch_cmd(t_launch **cmd, char ***arge)
 {
 	if ((*cmd)->argv)
 	{
+		heredoc_store((*cmd)->red);
 		if ((*cmd)->nbr_pipe)
 			ft_launch_pipe(*cmd, arge);
 		else

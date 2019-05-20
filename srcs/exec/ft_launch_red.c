@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 16:45:02 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/20 11:59:23 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 14:06:04 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int			ft_launch_red(t_red *red, t_launch *cmd)
 	int		ret;
 
 	ret = 0;
-	heredoc_store(red, cmd);
 	tmp = red;
 	while (red && !ret)
 	{

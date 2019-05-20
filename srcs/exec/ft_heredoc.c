@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 01:06:53 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/20 09:47:16 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 14:43:43 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ static void	ft_launch_here(char *end, int fd)
 	}
 }
 
-static int	ft_heredoc(char *end, t_launch *cmd)
+static int	ft_heredoc(char *end)
 {
 	int		fd;
 
-	(void)cmd;
 	if ((fd = open(".tmp_here", O_WRONLY | O_TRUNC | O_CREAT,
 					S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR)) == -1)
 		return (error_open("tmp file for heredoc"));
@@ -66,15 +65,15 @@ int			ft_heredoc_read(int *og, int *dir)
 	return (0);
 }
 
-int			heredoc_store(t_red *red, t_launch *cmd)
+int			heredoc_store(t_red *red)
 {
 	t_red	*tmp;
 
 	tmp = red;
 	while (tmp)
 	{
-		if (red->type == REL + 20 && red->end_nm)
-			if (ft_heredoc(tmp->end_nm, cmd))
+		if (tmp->type == REL + 20 && tmp->end_nm)
+			if (ft_heredoc(tmp->end_nm))
 				return (1);
 		tmp = tmp->next;
 	}
