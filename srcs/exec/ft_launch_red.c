@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 16:45:02 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/06 15:46:39 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 11:59:23 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 
-static int	make_rel(t_red *red, int *og, int *dir, t_launch *cmd)
+static int	make_rel(t_red *red, int *og, int *dir)
 {
 	if (red->type == REL && red->end_nm)
 	{
@@ -27,11 +27,7 @@ static int	make_rel(t_red *red, int *og, int *dir, t_launch *cmd)
 		*og = 0;
 	}
 	if (red->type == REL + 20 && red->end_nm)
-	{
-		ft_heredoc(red->end_nm, cmd);
-		*og = -2;
-		*dir = -2;
-	}
+		ft_heredoc_read(og, dir);
 	return (0);
 }
 
@@ -61,14 +57,6 @@ static int	make_rer(t_red *red, int *og, int *dir)
 	return (0);
 }
 
-static int	bad_fd(int dir)
-{
-	ft_putstr_fd("21sh: ", 2);
-	ft_putnbr_fd(dir, 2);
-	ft_putstr_fd(": bad file descriptor\n", 2);
-	return (1);
-}
-
 static int	make_one_red(t_red *red, t_launch *cmd)
 {
 	int		dir;
@@ -79,20 +67,15 @@ static int	make_one_red(t_red *red, t_launch *cmd)
 	og = -2;
 	if (!red)
 		return (0);
-	if ((ret = make_rel(red, &og, &dir, cmd)))
+	if ((ret = make_rel(red, &og, &dir)))
 		return (ret);
 	if ((ret = make_rer(red, &og, &dir)))
 		return (ret);
 	if (red->srt)
 		og = red->srt;
 	if (dir != -2 && og != -2)
-	{
-		ft_add_pile(og, dir, cmd);
-		if (dup2(dir, og) == -1)
-			return (bad_fd(dir));
-		if (red->end == -2)
-			close(og);
-	}
+		if (do_dup_pile(og, dir, cmd, red))
+			return (1);
 	return (0);
 }
 
@@ -102,6 +85,7 @@ int			ft_launch_red(t_red *red, t_launch *cmd)
 	int		ret;
 
 	ret = 0;
+	heredoc_store(red, cmd);
 	tmp = red;
 	while (red && !ret)
 	{

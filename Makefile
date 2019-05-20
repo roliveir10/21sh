@@ -6,7 +6,7 @@
 #    By: roliveir <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/28 01:21:35 by roliveir          #+#    #+#              #
-#    Updated: 2019/05/04 16:11:05 by roliveir         ###   ########.fr        #
+#    Updated: 2019/05/20 11:53:57 by oboutrol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC_EXEC_NAME = ft_exec.c\
 				exec_cmd.c\
 				ft_expend.c\
 				ft_expend_tool.c\
+				do_dup_pile.c\
 				ft_path.c
 
 SRC_BUILT_NAME = ft_echo.c\

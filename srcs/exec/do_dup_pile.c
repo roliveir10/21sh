@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_env.c                                         :+:      :+:    :+:   */
+/*   do_dup_pile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/04 09:37:40 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/20 12:01:59 by oboutrol         ###   ########.fr       */
+/*   Created: 2019/05/20 11:33:18 by oboutrol          #+#    #+#             */
+/*   Updated: 2019/05/20 11:59:25 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe.h"
-#include <stdlib.h>
+#include <unistd.h>
 
-void			exec_env(char **args, char **new_env, char **env)
+static int	bad_fd(int dir)
 {
-	char		*path;
+	ft_putstr_fd("21sh: ", 2);
+	ft_putnbr_fd(dir, 2);
+	ft_putstr_fd(": bad file descriptor\n", 2);
+	return (1);
+}
 
-	if (!args || !args[0])
-		return ;
-	path = NULL;
-	if (ft_path(args[0], &path, env))
-		do_fork(path, args, new_env);
+int			do_dup_pile(int og, int dir, t_launch *cmd, t_red *red)
+{
+	if (dir == g_env.t_fd)
+		return (bad_fd(dir));
 	else
-		ft_cmd_nf(args[0]);
-	if (path)
-		free(path);
+	{
+		ft_add_pile(og, dir, cmd);
+		if (dup2(dir, og) == -1)
+			return (bad_fd(dir));
+	}
+	if (red->end == -2)
+		close(og);
+	return (0);
 }

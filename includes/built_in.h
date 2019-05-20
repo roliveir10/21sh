@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 16:22:54 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/12 16:54:08 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 11:15:56 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct			s_envflag
 int						ft_echo(char **args, char ***env);
 int						ft_cd(char **args, char ***env);
 int						ft_env(char **args, char ***env);
-void					exec_env(char **args, char **env);
+void					exec_env(char **args, char **new_env, char **env);
 int						ft_setenv(char **args, char ***env);
 int						ft_setenv_eq(char *args, char ***env, t_envflag *flag);
 int						ft_unsetenv(char **args, char ***env);

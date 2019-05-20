@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 10:16:51 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/08 08:57:47 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 11:06:35 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void				ft_new_env(char **env, char **args, t_envflag *flag)
 	else if (!(new_env = ft_tabdup(env)))
 		return ;
 	k = 0;
-	while ((args[k] && (ft_strchr(args[k], '=') || args[k][0] == '-'))
-			|| k == 0)
+	while ((args[k] && (ft_strchr(args[k], '=') || args[k][0] == '-'
+					|| k == 0)))
 	{
 		if (args[k][0] != '-' && k > 0)
 			if (!ft_setenv_eq(args[k], &new_env, flag) && new_env)
@@ -74,7 +74,10 @@ void				ft_new_env(char **env, char **args, t_envflag *flag)
 			}
 		k++;
 	}
-	args[k] ? exec_env(&args[k], new_env) : ft_print_words_tables(new_env);
+	if (args[k])
+		exec_env(&args[k], new_env, env);
+	else if (new_env)
+		ft_print_words_tables(new_env);
 	if (new_env)
 		ft_del_words_tables(&new_env);
 }
