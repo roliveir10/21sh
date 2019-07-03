@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:28:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/03 16:34:14 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:36:40 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,9 @@ static void			line_endofread(void)
 	ft_strdel(&(g_env.oldline));
 }
 
-int					line_reader(char *argv)
+int					line_reader(void)
 {
 	if (line_read_isnotatty())
-		return (1);
-	if (argv && line_read_isarg(argv))
 		return (1);
 	ft_putstr(g_env.line);
 	if (g_env.tc->tc && !(g_env.oldline = ft_strdup(g_env.line)))

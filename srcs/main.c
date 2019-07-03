@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 12:11:17 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/04 08:45:23 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:41:26 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ int					main(int argc, char **argv, char **arge_sys)
 	char			**arge;
 
 	(void)argc;
+	(void)argv;
 	arge = ft_tabdup(arge_sys);
 	ft_bzero(&g_env, sizeof(t_env));
 	sh_term_manager();
 	ret = 1;
 	while (ret)
 	{
-		line = line_get_readline(PBASIC, argv[1]);
+		line = line_get_readline(PBASIC);
 		ret = !ft_lex(&line, &arge);
 		if (ret && line)
 		{

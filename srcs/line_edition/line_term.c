@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 02:00:25 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/04 16:40:39 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:36:59 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				sh_term_manager(void)
 	sh_configterm();
 }
 
-char				*line_get_readline(t_prompt prompt, char *argv)
+char				*line_get_readline(t_prompt prompt)
 {
 	int			ret;
 
@@ -85,7 +85,7 @@ char				*line_get_readline(t_prompt prompt, char *argv)
 	{
 		if (g_env.isatty)
 			line_setprompt(prompt);
-		ret = line_reader(argv);
+		ret = line_reader();
 	}
 	if (g_env.isatty)
 	{

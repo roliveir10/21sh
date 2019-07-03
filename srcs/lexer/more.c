@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 17:56:57 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/04 15:59:36 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:41:44 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int				ft_more(t_stat *stat, char **str, int nl)
 	fus = NULL;
 	while (!fus)
 	{
-		fus = line_get_readline(prompt, NULL);
+		fus = line_get_readline(prompt);
 		if ((fus == NULL || fus[0] == 0) && g_env.ctrld)
 			return (ft_nomatch(stat->old_status, fus));
 		if (ft_append_nl(str, nl))

@@ -6,7 +6,7 @@
 /*   By: oboutrol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 01:06:53 by oboutrol          #+#    #+#             */
-/*   Updated: 2019/05/20 14:43:43 by oboutrol         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:41:54 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_launch_here(char *end, int fd)
 			free(line);
 			line = NULL;
 		}
-		line = line_get_readline(PHEREDOC, NULL);
+		line = line_get_readline(PHEREDOC);
 		if ((!line || !line[0]) && g_env.ctrld)
 			stop = 1;
 		else if (ft_strcmp(line, end))

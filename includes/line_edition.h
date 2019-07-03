@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:21:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/04 14:29:05 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:37:07 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ typedef struct			s_env
 
 struct s_env			g_env;
 
-char					*line_get_readline(t_prompt prompt, char *argv);
+char					*line_get_readline(t_prompt prompt);
 int						line_manager(char *str, int ret);
 int						line_update(char *str, int ret);
 void					line_update_termsize(void);
@@ -164,7 +164,7 @@ int						line_undo(char *str, int ret);
 **	read
 */
 
-int						line_reader(char *argv);
+int						line_reader(void);
 int						line_read_isnotatty(void);
 int						line_read_isarg(char *argv);
 
