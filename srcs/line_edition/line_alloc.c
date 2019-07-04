@@ -6,12 +6,11 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 22:52:39 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/04 16:15:51 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/06/09 20:09:03 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
-#include <stdlib.h>
 
 char				*line_get_prompt(t_prompt prompt)
 {
@@ -29,6 +28,8 @@ char				*line_get_prompt(t_prompt prompt)
 		return (ft_strdup("bs> "));
 	else if (prompt == PDEF)
 		return (ft_strdup("> "));
+	else if (prompt == HIST)
+		return (ft_strdup("(search in history)`': "));
 	return (NULL);
 }
 
@@ -63,7 +64,14 @@ char				*line_delchar(int size)
 	if (size > g_env.cm->pos - g_env.p_size)
 		size = g_env.cm->pos - g_env.p_size;
 	if (g_env.mode->saved)
-		ft_strncpy(g_env.s_buffer, &(g_env.line[g_env.cm->pos]), size);
+		ft_strncpy(g_env.s_buffer, &(g_env.line[g_env.cm->pos - size]), size);
+	if (size > 1 && g_env.mode->mode[MNORMAL])
+	{
+		ft_strncpy(&(g_env.s_buffkill[g_env.k_index]),
+				&(g_env.line[g_env.cm->pos - size]), size);
+		g_env.k_index += size;
+		g_env.s_buffkill[g_env.k_index] = '\0';
+	}
 	if (!(fresh = ft_strnew(g_env.len - size)))
 		sh_errorterm(TMALLOC);
 	ft_strncpy(fresh, g_env.line, g_env.cm->pos - size);
@@ -82,6 +90,13 @@ char				*line_delchar_bs(int size)
 		size = g_env.len - g_env.cm->pos;
 	if (g_env.mode->saved)
 		ft_strncpy(g_env.s_buffer, &(g_env.line[g_env.cm->pos]), size);
+	if (size > 1 && g_env.mode->mode[MNORMAL])
+	{
+		ft_strncpy(&(g_env.s_buffkill[g_env.k_index]),
+				&(g_env.line[g_env.cm->pos]), size);
+		g_env.k_index += size;
+		g_env.s_buffkill[g_env.k_index] = '\0';
+	}
 	if (!(fresh = ft_strnew(g_env.len - size)))
 		sh_errorterm(TMALLOC);
 	ft_strncpy(fresh, g_env.line, g_env.cm->pos);
@@ -93,6 +108,7 @@ char				*line_delchar_bs(int size)
 char				*line_alloc_history(int stline)
 {
 	char			*prompt;
+	char			*tmp;
 
 	if (stline && g_env.oldline)
 	{
@@ -102,5 +118,10 @@ char				*line_alloc_history(int stline)
 	if (!(prompt = line_get_prompt(g_env.prompt)))
 		sh_errorterm(TMALLOC);
 	ft_strdel(&(g_env.line));
+	if ((int)ft_strlen(g_env.ry->line) < BUFF_SIZE)
+		return (ft_strjoinf(prompt, g_env.ry->line));
+	tmp = ft_strsub(g_env.ry->line, 0, BUFF_SIZE - (int)ft_strlen(prompt));
+	ft_strdel(&g_env.ry->line);
+	g_env.ry->line = tmp;
 	return (ft_strjoinf(prompt, g_env.ry->line));
 }

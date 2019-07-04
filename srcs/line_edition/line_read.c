@@ -6,12 +6,12 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:28:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/20 17:36:40 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/30 19:02:42 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "line_edition.h"
 #include <unistd.h>
+#include "line_edition.h"
 
 static int			line_read_notermcaps(void)
 {

@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 02:00:25 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/20 17:36:59 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:15:05 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char				*line_get_readline(t_prompt prompt)
 {
 	int			ret;
 
+	(void)prompt;
 	ret = 0;
 	if (g_env.isatty)
 		sh_switch_term(0);

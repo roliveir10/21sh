@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmousson <mmousson@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:21:08 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/20 17:37:07 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/06/04 23:20:59 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <termcap.h>
 # include "libft.h"
 # include "vi_edition.h"
+# include "auto_completion.h"
 
 # define UJUMP "\033\033[A"
 # define DJUMP "\033\033[B"
@@ -29,9 +30,12 @@
 # define CTRLK '\013'
 # define CTRLN '\016'
 # define CTRLP '\020'
+# define CTRLR '\022'
+# define CTRLT '\024'
 # define CTRLU '\025'
 # define CTRLW '\027'
 # define CTRLX '\030'
+# define CTRLY '\031'
 # define CTRLUND '\037'
 
 typedef enum			e_error
@@ -59,7 +63,8 @@ typedef enum			e_prompt
 	PPIPE = 6,
 	PHEREDOC = 9,
 	PBACKS = 4,
-	PDEF = 2
+	PDEF = 2,
+	HIST = 23
 }						t_prompt;
 
 typedef struct			s_tc
@@ -82,6 +87,11 @@ typedef struct			s_tc
 	char				*mr;
 	char				*me;
 	char				*cd;
+	char				*af;
+	char				*ri;
+	char				*lem;
+	char				*dom;
+	char				*upm;
 }						t_tc;
 
 typedef struct			s_cm
@@ -95,6 +105,7 @@ typedef struct			s_cm
 typedef struct			s_history
 {
 	char				*line;
+	int					id;
 	struct s_history	*next;
 	struct s_history	*prev;
 }						t_history;
@@ -109,6 +120,7 @@ typedef struct			s_ctrlxx
 
 typedef struct			s_env
 {
+	char				***env;
 	struct termios		term;
 	t_tc				*tc;
 	t_cm				*cm;
@@ -127,8 +139,14 @@ typedef struct			s_env
 	int					len;
 	int					cpos;
 	char				s_buffer[BUFF_SIZE + 1];
+	char				s_buffkill[BUFF_SIZE + 1];
+	int					k_index;
 	t_ctrlxx			*cx;
 	int					count;
+	int					search;
+	char				*h_word;
+	int					h_len;
+	int					h_index;
 }						t_env;
 
 struct s_env			g_env;
@@ -159,6 +177,7 @@ int						line_ascii(char *str, int ret);
 int						line_history(char *str, int ret);
 int						line_del(char *str, int ret);
 int						line_undo(char *str, int ret);
+int						line_inverse(char *str, int ret);
 
 /*
 **	read
@@ -166,7 +185,6 @@ int						line_undo(char *str, int ret);
 
 int						line_reader(void);
 int						line_read_isnotatty(void);
-int						line_read_isarg(char *argv);
 
 /*
 ** termcaps
@@ -183,14 +201,16 @@ int						caps_check_termcaps(t_tc tc);
 void					line_cursor_motion(t_move move, int len);
 void					line_cursor_ry(void);
 void					line_ljump(void);
+void					line_lbjump(void);
 void					line_rjump(void);
+void					line_rbjump(void);
 void					line_home(int blank);
 int						line_end(void);
 void					line_clear(void);
 int						line_getx(int pos);
 int						line_gety(int pos);
 int						line_get_termroom(void);
-void					line_reset_cursor(void);
+void					line_reset_cursor();
 int						line_get_origin_pos(void);
 void					line_cxjump(void);
 
@@ -242,6 +262,7 @@ int						line_isaltx(char *str, int ret);
 int						line_isaltv(char *str, int ret);
 int						line_isaltf(char *str, int ret);
 int						line_isaltb(char *str, int ret);
+int						line_isaltt(char *str, int ret);
 int						line_ctrld(void);
 
 /*
@@ -261,5 +282,14 @@ int						line_isend(char *str, int ret);
 int						line_iscx(char *str, int ret);
 int						line_isdel(char *str, int ret);
 int						line_isdelrword(char *str, int ret);
+int						line_isword(char c);
+
+/*
+**	signal
+*/
+
+void					sig_handler(int val);
+void					sig_reset(int val);
+void					sig_manager(int sg);
 
 #endif

@@ -6,14 +6,14 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 22:59:54 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/04 16:36:26 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/30 23:35:17 by oboutrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
-#include <stdlib.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <term.h>
 
 void				line_update_termsize(void)
 {
@@ -27,11 +27,10 @@ void				line_update_termsize(void)
 
 void				line_clear(void)
 {
-	int				i;
-
-	i = -1;
-	while (++i < g_env.cm->tmpy)
-		tputs(g_env.tc->up, 1, ft_putchar);
+	if (g_env.ctrld)
+		g_env.cm->tmpy = 1;
+	if (g_env.cm->tmpy > 0)
+		tputs(tparm(g_env.tc->upm, g_env.cm->tmpy), 1, ft_putchar);
 	tputs(g_env.tc->cd, 1, ft_putchar);
 	tputs(g_env.tc->cr, 1, ft_putchar);
 	tputs(g_env.tc->dl, 1, ft_putchar);
@@ -51,6 +50,7 @@ void				line_paste(char *str, int count)
 	if (!(g_env.oldline = ft_strdup(g_env.line)))
 		sh_errorterm(TMALLOC);
 	line_cursor_motion(MRIGHT, (int)ft_strlen(str) * count);
+	g_env.k_index = 0;
 }
 
 static int			line_choose_mode(char *str, int ret)
@@ -72,6 +72,7 @@ int					line_update(char *str, int ret)
 
 	if (!str)
 		return (0);
+	auto_keep_comp(str, ret);
 	vi_init_undo();
 	g_env.len = (int)ft_strlen(g_env.line) + 1;
 	cap = line_choose_mode(str, ret);

@@ -6,12 +6,11 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:46:23 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/03 10:31:30 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/05/30 11:02:19 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line_edition.h"
-#include "libft.h"
 
 static int		vi_nextcommand(char *str, int ret)
 {

@@ -12,22 +12,14 @@
 
 #include <string.h>
 
-int					ft_strncmp(const char *s1, const char *s2, size_t n)
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t			i;
-	unsigned char	*ms1;
-	unsigned char	*ms2;
-
-	ms1 = (unsigned char*)s1;
-	ms2 = (unsigned char*)s2;
-	i = 0;
-	while (ms1[i] == ms2[i] && n--)
+	if (!s1 || !s2 || !n)
+		return (0);
+	while (*s1 == *s2 && *s1 && *s2 && n-- > 1)
 	{
-		if (ms1[i] == '\0' || ms2 == '\0')
-			return (0);
-		i++;
+		s1++;
+		s2++;
 	}
-	if (!n)
-		return (ms1[i - 1] - ms2[i - 1]);
-	return (ms1[i] - ms2[i]);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

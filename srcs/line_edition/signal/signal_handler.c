@@ -6,7 +6,7 @@
 /*   By: roliveir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 22:56:41 by roliveir          #+#    #+#             */
-/*   Updated: 2019/05/03 11:44:09 by roliveir         ###   ########.fr       */
+/*   Updated: 2019/06/13 00:50:42 by roliveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void			sig_reset(int val)
 	}
 }
 
-void			sig_setchild(int val)
-{
-	while (++val < 32)
-		signal(val, SIG_DFL);
-}
-
 void			sig_manager(int sg)
 {
 	if (sg == SIGWINCH)
 		sig_sigwinch();
 	else if (sg == SIGINT)
 		sig_sigint();
+}
+
+void			sig_setchild(int val)
+{
+	while (++val < 32)
+		signal(val, SIG_DFL);
 }
